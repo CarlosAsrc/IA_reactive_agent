@@ -4,6 +4,7 @@ import java.util.Random;
 public class Maze {
 	
 	private String [][] maze = new String [10][10];
+	private int [] coins = {10, 90, 3, 96, 92, 2, 90, 50, 50, 33, 20, 51, 84, 96, 96, 11};
 	private Random random = new Random();
 	private String wallSide = "";
 //	Agente: A
@@ -17,13 +18,14 @@ public class Maze {
 		init();
 		generateWallsAndChests();
 		generateHoles();
+		generateCoins();
 		printMaze();
 	}
 	
 	public void init() {
 			for(int i=0; i<maze.length; i++) {
 				for(int j=0; j<maze[0].length; j++) {
-					maze[i][j] = " - ";
+					maze[i][j] = "  -  ";
 				}
 		}	
 	}
@@ -49,11 +51,11 @@ public class Maze {
 				wallSide = "ACIMA";
 				for(int i=0; i<maze[0].length; i++) {
 					if(exit==i) 
-						maze[0][i] = " S "; 
+						maze[0][i] = "  S  "; 
 					else
-						maze[0][i] = " P ";
+						maze[0][i] = "  P  ";
 					if(chests.contains(i)) {
-						maze[1][i] = " B ";
+						maze[1][i] = "  B  ";
 					}
 				}
 				break;
@@ -61,11 +63,11 @@ public class Maze {
 				wallSide = "ESQUERDA";
 				for(int i=0; i<maze.length; i++) {
 					if(exit==i) 
-						maze[i][0] = " S "; 
+						maze[i][0] = "  S  "; 
 					else
-						maze[i][0] = " P ";
+						maze[i][0] = "  P  ";
 					if(chests.contains(i)) {
-						maze[i][1] = " B ";
+						maze[i][1] = "  B  ";
 					}
 				}
 				break;
@@ -73,11 +75,11 @@ public class Maze {
 				wallSide = "ABAIXO";
 				for(int i=0; i<maze[0].length; i++) {
 					if(exit==i) 
-						maze[maze[0].length-1][i] = " S "; 
+						maze[maze[0].length-1][i] = "  S  "; 
 					else
-						maze[maze[0].length-1][i] = " P ";
+						maze[maze[0].length-1][i] = "  P  ";
 					if(chests.contains(i)) {
-						maze[maze[0].length-2][i] = " B ";
+						maze[maze[0].length-2][i] = "  B  ";
 					}
 				}
 				
@@ -86,11 +88,11 @@ public class Maze {
 				wallSide = "DIREITA";
 				for(int i=0; i<maze.length; i++) {
 					if(exit==i) 
-						maze[i][maze[0].length-1] = " S "; 
+						maze[i][maze[0].length-1] = "  S  "; 
 					else
-						maze[i][maze[0].length-1] = " P ";
+						maze[i][maze[0].length-1] = "  P  ";
 					if(chests.contains(i)) {
-						maze[i][maze[0].length-2] = " B ";
+						maze[i][maze[0].length-2] = "  B  ";
 					}
 				}
 				break;
@@ -106,28 +108,28 @@ public class Maze {
 				do{
 					initialLine = random.nextInt(10);
 					initialColumn = random.nextInt(6);
-				}while( ! (maze[initialLine][initialColumn].equals(" - ")
-						&& maze[initialLine][initialColumn+1].equals(" - ")
-						&& maze[initialLine][initialColumn+2].equals(" - ")
-						&& maze[initialLine][initialColumn+3].equals(" - ")
-						&& maze[initialLine][initialColumn+4].equals(" - "))
+				}while( ! (maze[initialLine][initialColumn].equals("  -  ")
+						&& maze[initialLine][initialColumn+1].equals("  -  ")
+						&& maze[initialLine][initialColumn+2].equals("  -  ")
+						&& maze[initialLine][initialColumn+3].equals("  -  ")
+						&& maze[initialLine][initialColumn+4].equals("  -  "))
 				);
 				for(int j=0; j<5; j++) {
-					maze[initialLine][initialColumn+j] = " P ";
+					maze[initialLine][initialColumn+j] = "  P  ";
 				}
 				break;
 			case(1): 
 				do{
 					initialLine = random.nextInt(6);
 					initialColumn = random.nextInt(10);
-				}while( ! (maze[initialLine][initialColumn].equals(" - ")
-						&& maze[initialLine+1][initialColumn].equals(" - ")
-						&& maze[initialLine+2][initialColumn].equals(" - ")
-						&& maze[initialLine+3][initialColumn].equals(" - ")
-						&& maze[initialLine+4][initialColumn].equals(" - "))
+				}while( ! (maze[initialLine][initialColumn].equals("  -  ")
+						&& maze[initialLine+1][initialColumn].equals("  -  ")
+						&& maze[initialLine+2][initialColumn].equals("  -  ")
+						&& maze[initialLine+3][initialColumn].equals("  -  ")
+						&& maze[initialLine+4][initialColumn].equals("  -  "))
 				);
 				for(int j=0; j<5; j++) {
-					maze[initialLine+j][initialColumn] = " P ";
+					maze[initialLine+j][initialColumn] = "  P  ";
 				}
 				break;
 			}
@@ -156,37 +158,37 @@ public class Maze {
 					validation = validateHolePosition("Central", line, column);
 				}
 			}while(!validation);
-			maze[line][column] = " O ";
+			maze[line][column] = "  O  ";
 		}
 	}
 	
 	public boolean validateHolePosition(String holeArea, int line, int column) {
 		
 		if(line==0 && column==0) {
-			if(!maze[line][column].equals(" - ")
-					|| maze[line+1][column].equals(" O ")
-					|| maze[line][column+1].equals(" O "))
+			if(!maze[line][column].equals("  -  ")
+					|| maze[line+1][column].equals("  O  ")
+					|| maze[line][column+1].equals("  O  "))
 				{
 					return false;
 				} else return true;
 		} else if(line==maze.length-1 && column==0) {
-			if(!maze[line][column].equals(" - ")
-					|| maze[line-1][column].equals(" O ")
-					|| maze[line][column+1].equals(" O "))
+			if(!maze[line][column].equals("  -  ")
+					|| maze[line-1][column].equals("  O  ")
+					|| maze[line][column+1].equals("  O  "))
 				{
 					return false;
 				} else return true;
 		}else if(line==0 && column==maze[0].length-1) {
-			if(!maze[line][column].equals(" - ")
-					|| maze[line+1][column].equals(" O ")
-					|| maze[line][column-1].equals(" O "))
+			if(!maze[line][column].equals("  -  ")
+					|| maze[line+1][column].equals("  O  ")
+					|| maze[line][column-1].equals("  O  "))
 				{
 					return false;
 				} else return true;
 		} else if(line==maze.length-1 && column==maze[0].length-1) {
-			if(!maze[line][column].equals(" - ")
-					|| maze[line-1][column].equals(" O ")
-					|| maze[line][column-1].equals(" O "))
+			if(!maze[line][column].equals("  -  ")
+					|| maze[line-1][column].equals("  O  ")
+					|| maze[line][column-1].equals("  O  "))
 				{
 					return false;
 				} else return true;
@@ -194,43 +196,43 @@ public class Maze {
 		
 		switch(holeArea) {
 			case("Central"):
-				if(!maze[line][column].equals(" - ")
-					|| maze[line+1][column].equals(" O ")
-					|| maze[line][column+1].equals(" O ")
-					|| maze[line-1][column].equals(" O ")
-					|| maze[line][column-1].equals(" O ")) 
+				if(!maze[line][column].equals("  -  ")
+					|| maze[line+1][column].equals("  O  ")
+					|| maze[line][column+1].equals("  O  ")
+					|| maze[line-1][column].equals("  O  ")
+					|| maze[line][column-1].equals("  O  ")) 
 				{
 					return false;
 				} else return true;
 			case("LeftEnd"):
-				if(!maze[line][column].equals(" - ")
-						|| maze[line+1][column].equals(" O ")
-						|| maze[line][column+1].equals(" O ")
-						|| maze[line-1][column].equals(" O ")) 
+				if(!maze[line][column].equals("  -  ")
+						|| maze[line+1][column].equals("  O  ")
+						|| maze[line][column+1].equals("  O  ")
+						|| maze[line-1][column].equals("  O  ")) 
 					{
 						return false;
 					} else return true;
 			case("RightEnd"):
-				if(!maze[line][column].equals(" - ")
-						|| maze[line+1][column].equals(" O ")
-						|| maze[line-1][column].equals(" O ")
-						|| maze[line][column-1].equals(" O ")) 
+				if(!maze[line][column].equals("  -  ")
+						|| maze[line+1][column].equals("  O  ")
+						|| maze[line-1][column].equals("  O  ")
+						|| maze[line][column-1].equals("  O  ")) 
 					{
 						return false;
 					} else return true;
 			case("UpperEnd"):
-				if(!maze[line][column].equals(" - ")
-						|| maze[line+1][column].equals(" O ")
-						|| maze[line][column+1].equals(" O ")
-						|| maze[line][column-1].equals(" O ")) 
+				if(!maze[line][column].equals("  -  ")
+						|| maze[line+1][column].equals("  O  ")
+						|| maze[line][column+1].equals("  O  ")
+						|| maze[line][column-1].equals("  O  ")) 
 					{
 						return false;
 					} else return true;
 			case("BottomEnd"):
-				if(!maze[line][column].equals(" - ")
-						|| maze[line][column+1].equals(" O ")
-						|| maze[line-1][column].equals(" O ")
-						|| maze[line][column-1].equals(" O ")) 
+				if(!maze[line][column].equals("  -  ")
+						|| maze[line][column+1].equals("  O  ")
+						|| maze[line-1][column].equals("  O  ")
+						|| maze[line][column-1].equals("  O  ")) 
 					{
 						return false;
 					} else return true;		
@@ -239,6 +241,21 @@ public class Maze {
 		
 		return false;
 	}
+	
+	
+	public void generateCoins() {
+		int line, column;
+		for(int i=0; i<coins.length; i++) {	
+			do {
+				line = random.nextInt(10);
+				column = random.nextInt(10);
+				
+			}while(!maze[line][column].equals("  -  "));
+			if(coins[i]<10) maze[line][column] = "  "+coins[i]+"  ";
+			else {maze[line][column] = " "+coins[i]+"  ";}
+		}
+	}
+	
 	
 	public void printMaze() {
 		for(int i=0; i<maze.length; i++) {
