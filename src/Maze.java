@@ -16,6 +16,7 @@ public class Maze {
 	public Maze() {
 		init();
 		generateWallsAndChests();
+		generateHoles();
 		printMaze();
 	}
 	
@@ -133,6 +134,110 @@ public class Maze {
 				
 			
 		}
+	}
+	
+	public void generateHoles() {
+		int line;
+		int column;
+		boolean validation;
+		for(int i=0; i<5; i++) {	
+			do {
+				line = random.nextInt(10);
+				column = random.nextInt(10);
+				if(line==0) {
+					validation = validateHolePosition("UpperEnd", line, column);
+				}else if(column==0){
+					validation = validateHolePosition("LeftEnd", line, column);
+				}else if(column==maze[0].length-1){
+					validation = validateHolePosition("RightEnd", line, column);
+				} else if(line==maze.length-1) {
+					validation = validateHolePosition("BottomEnd", line, column);
+				} else {
+					validation = validateHolePosition("Central", line, column);
+				}
+			}while(!validation);
+			maze[line][column] = " O ";
+		}
+	}
+	
+	public boolean validateHolePosition(String holeArea, int line, int column) {
+		
+		if(line==0 && column==0) {
+			if(!maze[line][column].equals(" - ")
+					|| maze[line+1][column].equals(" O ")
+					|| maze[line][column+1].equals(" O "))
+				{
+					return false;
+				} else return true;
+		} else if(line==maze.length-1 && column==0) {
+			if(!maze[line][column].equals(" - ")
+					|| maze[line-1][column].equals(" O ")
+					|| maze[line][column+1].equals(" O "))
+				{
+					return false;
+				} else return true;
+		}else if(line==0 && column==maze[0].length-1) {
+			if(!maze[line][column].equals(" - ")
+					|| maze[line+1][column].equals(" O ")
+					|| maze[line][column-1].equals(" O "))
+				{
+					return false;
+				} else return true;
+		} else if(line==maze.length-1 && column==maze[0].length-1) {
+			if(!maze[line][column].equals(" - ")
+					|| maze[line-1][column].equals(" O ")
+					|| maze[line][column-1].equals(" O "))
+				{
+					return false;
+				} else return true;
+		}
+		
+		switch(holeArea) {
+			case("Central"):
+				if(!maze[line][column].equals(" - ")
+					|| maze[line+1][column].equals(" O ")
+					|| maze[line][column+1].equals(" O ")
+					|| maze[line-1][column].equals(" O ")
+					|| maze[line][column-1].equals(" O ")) 
+				{
+					return false;
+				} else return true;
+			case("LeftEnd"):
+				if(!maze[line][column].equals(" - ")
+						|| maze[line+1][column].equals(" O ")
+						|| maze[line][column+1].equals(" O ")
+						|| maze[line-1][column].equals(" O ")) 
+					{
+						return false;
+					} else return true;
+			case("RightEnd"):
+				if(!maze[line][column].equals(" - ")
+						|| maze[line+1][column].equals(" O ")
+						|| maze[line-1][column].equals(" O ")
+						|| maze[line][column-1].equals(" O ")) 
+					{
+						return false;
+					} else return true;
+			case("UpperEnd"):
+				if(!maze[line][column].equals(" - ")
+						|| maze[line+1][column].equals(" O ")
+						|| maze[line][column+1].equals(" O ")
+						|| maze[line][column-1].equals(" O ")) 
+					{
+						return false;
+					} else return true;
+			case("BottomEnd"):
+				if(!maze[line][column].equals(" - ")
+						|| maze[line][column+1].equals(" O ")
+						|| maze[line-1][column].equals(" O ")
+						|| maze[line][column-1].equals(" O ")) 
+					{
+						return false;
+					} else return true;		
+		}
+		
+		
+		return false;
 	}
 	
 	public void printMaze() {
