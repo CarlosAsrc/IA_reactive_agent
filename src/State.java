@@ -6,19 +6,19 @@ public class State {
 	 * de casas
 	 */
 
-	private int cost_goal = 0;
+	private double cost_goal = 0;
 	private int cost_initial = 0;
-	private int cost_final = 0;
+	private double cost_final = 0;
 	private int[] position = new int[2];
 
-	public State(int cg, int ci, int cf, int[] p) {
+	public State(double cg, int ci, double cf, int[] p) {
 		this.cost_goal = cg;
 		this.cost_initial = ci;
 		this.cost_final = cf;
 		this.position = p;
 	}
 
-	public int getCost_goal() {
+	public double getCost_goal() {
 		return cost_goal;
 	}
 
@@ -26,7 +26,7 @@ public class State {
 		return cost_initial;
 	}
 
-	public int getCost_final() {
+	public double getCost_final() {
 		return cost_final;
 	}
 
