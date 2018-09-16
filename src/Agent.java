@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.Random;
 
 public class Agent {
@@ -14,18 +15,31 @@ public class Agent {
 		sortDirection();
 		
 		int[] saida = new int[2];
-		A_star a = new A_star(maze.getAgentPosition(), this.maze.getSaidaPosition(), this.maze);
+		//A_star a = new A_star(maze.getAgentPosition(), this.maze.getSaidaPosition(), this.maze);
 		//a.run();
 	}
 
 	
-	public void explore() {
-		for(int i=0; i<5; i++) {
+	public void explore() throws InterruptedException, IOException {
+		for(int i=0; i<1000; i++) {
+			for (int j=0; j<50; j++){System.out.println();}
+
+			
+			
+			System.out.print("X: "+maze.getAgentPosition()[0]);
+			System.out.println("  Y: "+maze.getAgentPosition()[1]);
+			//System.out.println(currentDirection);
+			//if("vb".contains("vb")) {System.out.println("TRUE");}
+			maze.printMaze();
 			scan();
 			move();
-			System.out.print(maze.getAgentPosition()[0]);
-			System.out.println(maze.getAgentPosition()[1]);
-			maze.printMaze();
+			try{
+			      Thread.sleep(500);
+			}catch(Exception e){
+			      System.out.println("Deu erro!");
+			}
+			
+			
 		}
 	}
 	
@@ -57,17 +71,18 @@ public class Agent {
 			case "up":
 				x = position[0]-1;
 				y = position[1];
-				if(scanPos(x, y).contains("O")) {
-					if(validPos(x-1, y)) {
+				if(scanPos(x, y).contains("O") && validPos(x-1, y)) {
+					
 						position[0] = x-1;
 						break;
-					}
+					
 				} else {
 					if(validPos(x, y)) {
 						position[0] = x;
 					} else {
 						sortDirection();
-						move();
+						//move();
+						
 					}
 				}
 				break;
@@ -76,17 +91,16 @@ public class Agent {
 			case "down":
 				x = position[0]+1;
 				y = position[1];
-				if(scanPos(x, y).contains("O")) {
-					if(validPos(x+1, y)) {
-						position[0] = x+1;
-						break;
-					}
+				if(scanPos(x, y).contains("O") && validPos(x+1, y)) {		
+					position[0] = x+1;
+					break;
+					
 				} else {
 					if(validPos(x, y)) {
 						position[0] = x;
 					} else {
 						sortDirection();
-						move();
+						//move();
 					}
 				}
 				break;
@@ -94,17 +108,17 @@ public class Agent {
 			case "left":
 				x = position[0];
 				y = position[1]-1;
-				if(scanPos(x, y).contains("O")) {
-					if(validPos(x, y-1)) {
+				if(scanPos(x, y).contains("O") && validPos(x, y-1)) {
+					
 						position[1] = y-1;
 						break;
-					}
+					
 				} else {
 					if(validPos(x, y)) {
 						position[1] = y;
 					} else {
 						sortDirection();
-						move();
+						//move();
 					}
 				}
 				break;
@@ -112,17 +126,17 @@ public class Agent {
 			case "right":
 				x = position[0];
 				y = position[1]+1;
-				if(scanPos(x, y).contains("O")) {
-					if(validPos(x, y+1)) {
+				if(scanPos(x, y).contains("O") && validPos(x, y+1)) {
+					
 						position[1] = y+1;
 						break;
-					}
+					
 				} else {
 					if(validPos(x, y)) {
 						position[1] = y;
 					} else {
 						sortDirection();
-						move();
+						//move();
 					}
 				}
 				break;
@@ -140,8 +154,10 @@ public class Agent {
 		int x = maze.getAgentPosition()[0]-1;
 		int y = maze.getAgentPosition()[1];
 		if(validRangePos(x, y) || validRangePos(x-1, y)) {
-			if(scanPos(x, y).contains("M") || scanPos(x-1, y).contains("M")) {
+			if(	scanPos(x, y).replaceAll(" ", "").matches("^[0-9]{2}|^[0-9]") || 
+				(scanPos(x-1, y).replaceAll(" ", "").matches("^[0-9]{2}|^[0-9]") && validPos(x, y))) {
 				currentDirection = "up";
+				
 				return;
 			}
 			
@@ -150,8 +166,10 @@ public class Agent {
 		x = maze.getAgentPosition()[0];
 		y = maze.getAgentPosition()[1]+1;
 		if(validRangePos(x, y) || validRangePos(x, y+1)) {
-			if(scanPos(x, y).contains("M") || scanPos(x, y+1).contains("M")) {
+			if(	scanPos(x, y).replaceAll(" ", "").matches("^[0-9]{2}|^[0-9]") || 
+				(scanPos(x, y+1).replaceAll(" ", "").matches("^[0-9]{2}|^[0-9]") && validPos(x, y))) {
 				currentDirection = "right";
+				
 				return;
 			}
 			
@@ -160,7 +178,8 @@ public class Agent {
 		x = maze.getAgentPosition()[0]+1;
 		y = maze.getAgentPosition()[1];
 		if(validRangePos(x, y) || validRangePos(x+1, y)) {
-			if(scanPos(x, y).contains("M") || scanPos(x+1, y).contains("M")) {
+			if(	scanPos(x, y).replaceAll(" ", "").matches("^[0-9]{2}|^[0-9]") || 
+				(scanPos(x+1, y).replaceAll(" ", "").matches("^[0-9]{2}|^[0-9]") && validPos(x, y))) {
 				currentDirection = "down";
 				return;
 			}
@@ -170,7 +189,8 @@ public class Agent {
 		x = maze.getAgentPosition()[0];
 		y = maze.getAgentPosition()[1]-1;
 		if(validRangePos(x, y) || validRangePos(x, y-1)) {
-			if(scanPos(x, y).contains("M") || scanPos(x, y-1).contains("M")) {
+			if(	scanPos(x, y).replaceAll(" ", "").matches("^[0-9]{2}|^[0-9]") || 
+				(scanPos(x, y-1).replaceAll(" ", "").matches("^[0-9]{2}|^[0-9]") && validPos(x, y))){
 				currentDirection = "left";
 				return;
 			}

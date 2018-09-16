@@ -8,6 +8,7 @@ public class Maze {
 	private Random random = new Random();
 	private String wallSide = "";
 	private int[] agent_position=null;
+	private String lastPositionContent= "  A  ";
 	
 	// temporario. Algoritmo de busca vai ter q achar saida no labirinto depois.
 	private int[] saida = new int[2];
@@ -297,15 +298,14 @@ public class Maze {
 	
 	
 	public void updateAgentPosition(int [] position, int [] before) {
-		//maze[agent_position[0]][agent_position[1]] = "  -  ";
-		maze[before[0]][before[1]] = "  -  ";
-		System.out.println("MOVE");
-		System.out.println(getAgentPosition()[0]);
-		System.out.println(getAgentPosition()[1]);
+		if(maze[before[0]][before[1]].contains("P") || maze[before[0]][before[1]].contains("S")) {
+			maze[before[0]][before[1]] = lastPositionContent;
+		} else {
+			maze[before[0]][before[1]] = "  -  ";
+		}
 		this.agent_position[0] = position[0];
 		this.agent_position[1] = position[1];
-		System.out.println(getAgentPosition()[0]);
-		System.out.println(getAgentPosition()[1]);
+		lastPositionContent = maze[position[0]][position[1]];
 		maze[position[0]][position[1]] = "  A  ";
 	}
 }
