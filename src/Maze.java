@@ -8,6 +8,9 @@ public class Maze {
 	private Random random = new Random();
 	private String wallSide = "";
 	private int[] agent_position=null;
+	
+	// temporario. Algoritmo de busca vai ter q achar saida no labirinto depois.
+	private int[] saida = new int[2];
 
 	// Agente: A
 	// Parede: P
@@ -52,8 +55,10 @@ public class Maze {
 		case 0:
 			wallSide = "ACIMA";
 			for (int i = 0; i < maze[0].length; i++) {
-				if (exit == i)
+				if (exit == i) {
 					maze[0][i] = "  S  ";
+					this.saida[0]=0;
+					this.saida[1]=i;}
 				else
 					maze[0][i] = "  P  ";
 				if (chests.contains(i)) {
@@ -64,8 +69,10 @@ public class Maze {
 		case 1:
 			wallSide = "ESQUERDA";
 			for (int i = 0; i < maze.length; i++) {
-				if (exit == i)
+				if (exit == i) {
 					maze[i][0] = "  S  ";
+					this.saida[0]=i;
+					this.saida[1]=0;}
 				else
 					maze[i][0] = "  P  ";
 				if (chests.contains(i)) {
@@ -76,8 +83,10 @@ public class Maze {
 		case 2:
 			wallSide = "ABAIXO";
 			for (int i = 0; i < maze[0].length; i++) {
-				if (exit == i)
+				if (exit == i) {
 					maze[maze[0].length - 1][i] = "  S  ";
+					this.saida[0]=maze[0].length - 1;
+					this.saida[1]=i;}
 				else
 					maze[maze[0].length - 1][i] = "  P  ";
 				if (chests.contains(i)) {
@@ -89,8 +98,10 @@ public class Maze {
 		case 3:
 			wallSide = "DIREITA";
 			for (int i = 0; i < maze.length; i++) {
-				if (exit == i)
+				if (exit == i) {
 					maze[i][maze[0].length - 1] = "  S  ";
+					this.saida[0]=i;
+					this.saida[1]=maze[0].length - 1;}
 				else
 					maze[i][maze[0].length - 1] = "  P  ";
 				if (chests.contains(i)) {
@@ -280,9 +291,14 @@ public class Maze {
 	public int[] getAgentPosition() {
 		return agent_position;
 	}
+	public int[] getSaidaPosition() {
+		return this.saida;
+	}
 	
-	public void updateAgentPosition(int [] position) {
-		maze[agent_position[0]][agent_position[1]] = "  -  ";
+	
+	public void updateAgentPosition(int [] position, int [] before) {
+		//maze[agent_position[0]][agent_position[1]] = "  -  ";
+		maze[before[0]][before[1]] = "  -  ";
 		System.out.println("MOVE");
 		System.out.println(getAgentPosition()[0]);
 		System.out.println(getAgentPosition()[1]);

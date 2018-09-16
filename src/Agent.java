@@ -7,10 +7,15 @@ public class Agent {
 	private int exitPosition [] = new int[2];
 	private String currentDirection;
 	private Random random = new Random();
+	
 
 	public Agent(Maze maze) {
 		this.maze = maze;
 		sortDirection();
+		
+		int[] saida = new int[2];
+		A_star a = new A_star(maze.getAgentPosition(), this.maze.getSaidaPosition(), this.maze);
+		//a.run();
 	}
 
 	
@@ -44,6 +49,9 @@ public class Agent {
 	
 	public void move() {
 		int[] position = maze.getAgentPosition();
+		int[] before = new int[2];
+		before[0]= position[0];
+		before[1]= position[1];
 		int x, y;
 		switch(currentDirection) {
 			case "up":
@@ -119,7 +127,7 @@ public class Agent {
 				}
 				break;
 		}
-		maze.updateAgentPosition(position);
+		maze.updateAgentPosition(position, before);
 	}
 	
 	public boolean validPos(int x, int y) {
@@ -127,7 +135,7 @@ public class Agent {
 	}
 	
 
-	//Percepcao: verifica até 2 casas nas 4 direcoes
+	//Percepcao: verifica ate 2 casas nas 4 direcoes
 	public void scan() {
 		int x = maze.getAgentPosition()[0]-1;
 		int y = maze.getAgentPosition()[1];
