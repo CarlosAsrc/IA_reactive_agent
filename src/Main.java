@@ -4,6 +4,6 @@ public class Main {
 		Maze maze = new Maze();
 		Agent agent = new Agent(maze);
 		System.out.println("\n");
-		agent.mover();
+		agent.explore();
 	}
 }

@@ -241,7 +241,7 @@ public class Maze {
 			}
 		}
 	}
-	// Gera agente no labirinto. Previne que agente fique preso entre paredes. Retorna array com posição atual do agente.
+	// Gera agente no labirinto. Previne que agente fique preso entre paredes. Retorna array com posiï¿½ï¿½o atual do agente.
 	public int[] generateAgent() {
 		int[] position = new int[2];
 		int i = 0;
@@ -279,5 +279,17 @@ public class Maze {
 	}
 	public int[] getAgentPosition() {
 		return agent_position;
+	}
+	
+	public void updateAgentPosition(int [] position) {
+		maze[agent_position[0]][agent_position[1]] = "  -  ";
+		System.out.println("MOVE");
+		System.out.println(getAgentPosition()[0]);
+		System.out.println(getAgentPosition()[1]);
+		this.agent_position[0] = position[0];
+		this.agent_position[1] = position[1];
+		System.out.println(getAgentPosition()[0]);
+		System.out.println(getAgentPosition()[1]);
+		maze[position[0]][position[1]] = "  A  ";
 	}
 }
