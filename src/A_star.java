@@ -1,4 +1,6 @@
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class A_star {
 	private int[] inicio = new int[2];
@@ -35,17 +37,24 @@ public class A_star {
 		 * das listas).
 		 */
 
-		ArrayList<int[]> open_list = new ArrayList<int[]>();
-		ArrayList<int[]> closed_list = new ArrayList<int[]>();
+		ArrayList<State> open_list = new ArrayList<State>();
+		ArrayList<State> closed_list = new ArrayList<State>();
+		
+		//
+		ArrayList<State> path = new ArrayList<State>();
 
 		int[] current = new int[2];
 		ArrayList<int[]> current_sons = new ArrayList<int[]>();
 
-		open_list.add(this.inicio);
+		State inicial = new State(0, 0, 0, this.inicio);
+		int count = 0;
+
+		open_list.add(inicial);
 
 		while (!open_list.isEmpty()) {
 			// pega primeiro elemento da lista aberta (aquele com menor custo)
-			current = open_list.get(0);
+			State current_state = open_list.get(0);
+			current = open_list.get(0).getPosition();
 			System.out.println("current: " + current[0] + " " + current[1]);
 			open_list.remove(0);
 
@@ -59,22 +68,40 @@ public class A_star {
 
 			// ignora qnd sao obstaculos
 			ArrayList<int[]> vizinhos = getVizinhos(current);
+
 			for (int[] v : vizinhos) {
 				// descobrir como checar custos
+				int cost_initial = count;
+				double cost_goal = calcHeuristic(current, this.objetivo);
+				double cost_final = cost_initial + cost_goal;
+				State vizinho = new State(cost_goal, cost_initial, cost_final, v);
 
-				// State vizinho = new State(,,,v)
+				boolean contains = false;
 
 				// testa se vizinho já está em open_list ou closed_list
-				if (!open_list.contains(v) && !closed_list.contains(v)) {
-
-					open_list.add(v);
-
+				for (State s : open_list) {
+					if (s.getPosition().equals(v)) {
+						contains = true;
+						break;
+					}
 				}
+				if (!contains)
+					for (State s : closed_list) {
+						if (s.getPosition().equals(v)) {
+							contains = true;
+							break;
+						}
+					}
+
+				if (!contains)
+					open_list.add(vizinho);
 			}
 
-			closed_list.add(current);
+			closed_list.add(current_state);
 			sort(open_list);
 			vizinhos.clear();
+			open_list.remove(current_state);
+			count++;
 		}
 
 	}
@@ -126,8 +153,37 @@ public class A_star {
 
 		return vizinhos;
 	}
+	/*
+	 * public double sort(ArrayList<State> list) { /* Collections.sort(fruits, new
+	 * Comparator<Fruit>() {
+	 * 
+	 * @Override public int compare(Fruit fruit2, Fruit fruit1) {
+	 * 
+	 * return fruit1.fruitName.compareTo(fruit2.fruitName); } });
+	 * 
+	 * Collections.sort(list, new Comparator<State>() {
+	 * 
+	 * @Override public int compare(State s2, State s1) { return
+	 * s1.getCost_final().compareTo(s2.getCost_final()); } });
+	 * 
+	 * }
+	 * 
+	 * 
+	 * for(
+	 * 
+	 * State s:list) { System.out.println("Custo final: " + s.getCost_final()); //
+	 * s.getCost_final() } }
+	 */
 
-	public void sort(ArrayList<int[]> a) {
-
+	/*
+	 * Gera a função heuristica do estado corrente
+	 *
+	 */
+	public double calcHeuristic(int[] current, int[] goal) {
+		System.out.println("Pontos: " + current[0] + " " + current[1] + " goal " + goal[0] + " " + goal[1]);
+		double distance = Math.hypot(current[0] - goal[0], current[1] - goal[1]);
+		System.out.println("Distancia : " + distance);
+		return distance;
 	}
+
 }
