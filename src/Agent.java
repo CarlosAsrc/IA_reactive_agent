@@ -40,7 +40,17 @@ public class Agent {
 
 
 	public void sortDirection() {
-		int n = random.nextInt(4);
+		int n;
+		if(currentDirection==null) {
+			n = random.nextInt(4);
+		} else {
+			if(currentDirection.contains("up") || currentDirection.contains("down")) {
+				n = random.nextInt(2)+2;
+			} else {
+				n = random.nextInt(2);
+			}
+		}
+		
 		switch (n) {
 		case 0:
 			currentDirection = "up";
