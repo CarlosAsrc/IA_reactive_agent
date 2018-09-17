@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Random;
 
 import javax.swing.event.TreeWillExpandListener;
@@ -8,6 +9,7 @@ public class Agent {
 	private int chestsPositions[] = new int[8];
 	int chestsPositionsCont;
 	private int exitPosition[] = new int[2];
+	private ArrayList coin = new ArrayList<>();
 	private String currentDirection;
 	private Random random = new Random();
 
@@ -26,13 +28,16 @@ public class Agent {
 		for(int i=0; i<1000; i++) {
 			for (int j=0; j<50; j++){System.out.println();}
 			scan();
-			move();			
+			move();
+			System.out.print("Posicao dos baus: ");
+			for (int j=0; j<7; j=j+2) {System.out.print(" "+chestsPositions[j]+chestsPositions[j+1]);}
+			System.out.println("\nEXIT: "+exitPosition[0]+exitPosition[1]);
 			System.out.print("X: "+maze.getAgentPosition()[0]);
 			System.out.println("  Y: "+maze.getAgentPosition()[1]);
 			//System.out.println(currentDirection);
 			//if("vb".contains("vb")) {System.out.println("TRUE");}
 			maze.printMaze();
-			Thread.sleep(500);
+			Thread.sleep(1000);
 
 	}
 }
@@ -166,7 +171,7 @@ public class Agent {
 				(scanPos(x-1, y).replaceAll(" ", "").matches("^[0-9]{2}|^[0-9]") && validPos(x, y))) {
 				currentDirection = "up";
 				
-				return;
+				
 			}
 
 		}
@@ -180,7 +185,7 @@ public class Agent {
 
 				currentDirection = "right";
 				
-				return;
+				
 			}
 
 		}
@@ -193,7 +198,7 @@ public class Agent {
 				(scanPos(x+1, y).replaceAll(" ", "").matches("^[0-9]{2}|^[0-9]") && validPos(x, y))) {
 
 				currentDirection = "down";
-				return;
+				
 			}
 
 		}
@@ -206,7 +211,7 @@ public class Agent {
 				(scanPos(x, y-1).replaceAll(" ", "").matches("^[0-9]{2}|^[0-9]") && validPos(x, y))){
 
 				currentDirection = "left";
-				return;
+				
 			}
 
 		}
@@ -231,6 +236,11 @@ public class Agent {
 	}
 
 	public void saveChest(int x, int y) {
+		for (int i=0; i<7; i=i+2) {
+			if(chestsPositions[i]==x && chestsPositions[i+1]==y) {
+				return;
+			}
+		}
 		if (chestsPositionsCont < 8) {
 			chestsPositions[chestsPositionsCont] = x;
 			chestsPositionsCont++;

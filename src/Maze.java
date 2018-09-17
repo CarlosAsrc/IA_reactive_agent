@@ -18,7 +18,7 @@ public class Maze {
 	// Buraco: O
 	// Baus: B
 	// Saida: S
-	// Moedas: M
+	// Moedas: Numeros
 	// vazio: -
 	public Maze() {
 		init();
@@ -303,7 +303,7 @@ public class Maze {
 		} else {
 			maze[before[0]][before[1]] = "  -  ";
 		}
-		System.out.println(lastPositionContent);
+	
 		this.agent_position[0] = position[0];
 		this.agent_position[1] = position[1];
 		lastPositionContent = maze[position[0]][position[1]];
