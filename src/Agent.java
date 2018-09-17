@@ -10,6 +10,7 @@ public class Agent {
 	int chestsPositionsCont;
 	private int exitPosition[] = new int[2];
 	private ArrayList coin = new ArrayList<>();
+	private String currentPositionContent = "  -  ";
 	private String currentDirection;
 	private Random random = new Random();
 
@@ -29,20 +30,28 @@ public class Agent {
 			for (int j=0; j<50; j++){System.out.println();}
 			scan();
 			move();
+			explorePos();
+			
 			System.out.print("Posicao dos baus: ");
 			for (int j=0; j<7; j=j+2) {System.out.print(" "+chestsPositions[j]+chestsPositions[j+1]);}
-			System.out.println("\nEXIT: "+exitPosition[0]+exitPosition[1]);
-			System.out.print("X: "+maze.getAgentPosition()[0]);
+			System.out.println("\nPosicao da saída: "+exitPosition[0]+exitPosition[1]);
+			System.out.print("Moedas coletadas: ");
+			coin.stream().forEach(c -> {System.out.print("  "+c);});
+			System.out.print("\nPosicao atual   X: "+maze.getAgentPosition()[0]);
 			System.out.println("  Y: "+maze.getAgentPosition()[1]);
-			//System.out.println(currentDirection);
-			//if("vb".contains("vb")) {System.out.println("TRUE");}
+			System.out.println("Direcao atual do agente: "+currentDirection);
+			
 			maze.printMaze();
 			Thread.sleep(1000);
 
 	}
 }
 
-
+	public void explorePos() {
+		if(currentPositionContent.replaceAll(" ", "").matches("^[0-9]{2}|^[0-9]")) {
+			coin.add(Integer.parseInt(currentPositionContent.replaceAll(" ", "")));
+		}
+	}
 
 	public void sortDirection() {
 		int n;
@@ -84,13 +93,14 @@ public class Agent {
 				x = position[0]-1;
 				y = position[1];
 				if(scanPos(x, y).contains("O") && validPos(x-1, y)) {
-					
 						position[0] = x-1;
+						currentPositionContent = maze.getMaze()[position[0]][position[1]];
 						break;
 					
 				} else {
 					if(validPos(x, y)) {
 						position[0] = x;
+						currentPositionContent = maze.getMaze()[position[0]][position[1]];
 					} else {
 						sortDirection();
 //						move();
@@ -105,11 +115,13 @@ public class Agent {
 				y = position[1];
 				if(scanPos(x, y).contains("O") && validPos(x+1, y)) {		
 					position[0] = x+1;
+					currentPositionContent = maze.getMaze()[position[0]][position[1]];
 					break;
 					
 				} else {
 					if(validPos(x, y)) {
 						position[0] = x;
+						currentPositionContent = maze.getMaze()[position[0]][position[1]];
 					} else {
 						sortDirection();
 //						move();
@@ -121,13 +133,14 @@ public class Agent {
 				x = position[0];
 				y = position[1]-1;
 				if(scanPos(x, y).contains("O") && validPos(x, y-1)) {
-					
 						position[1] = y-1;
+						currentPositionContent = maze.getMaze()[position[0]][position[1]];
 						break;
 					
 				} else {
 					if(validPos(x, y)) {
 						position[1] = y;
+						currentPositionContent = maze.getMaze()[position[0]][position[1]];
 					} else {
 						sortDirection();
 //						move();
@@ -139,13 +152,14 @@ public class Agent {
 				x = position[0];
 				y = position[1]+1;
 				if(scanPos(x, y).contains("O") && validPos(x, y+1)) {
-					
 						position[1] = y+1;
+						currentPositionContent = maze.getMaze()[position[0]][position[1]];
 						break;
 					
 				} else {
 					if(validPos(x, y)) {
 						position[1] = y;
+						currentPositionContent = maze.getMaze()[position[0]][position[1]];
 					} else {
 						sortDirection();
 //						move();
