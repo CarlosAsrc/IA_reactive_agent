@@ -298,11 +298,12 @@ public class Maze {
 	
 	
 	public void updateAgentPosition(int [] position, int [] before) {
-		if(maze[before[0]][before[1]].contains("P") || maze[before[0]][before[1]].contains("S")) {
+		if(lastPositionContent.contains("B") || lastPositionContent.contains("S")) {
 			maze[before[0]][before[1]] = lastPositionContent;
 		} else {
 			maze[before[0]][before[1]] = "  -  ";
 		}
+		System.out.println(lastPositionContent);
 		this.agent_position[0] = position[0];
 		this.agent_position[1] = position[1];
 		lastPositionContent = maze[position[0]][position[1]];

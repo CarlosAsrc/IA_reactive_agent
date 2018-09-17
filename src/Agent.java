@@ -88,7 +88,7 @@ public class Agent {
 						position[0] = x;
 					} else {
 						sortDirection();
-						//move();
+//						move();
 						
 					}
 				}
@@ -107,7 +107,7 @@ public class Agent {
 						position[0] = x;
 					} else {
 						sortDirection();
-						//move();
+//						move();
 					}
 				}
 				break;
@@ -125,7 +125,7 @@ public class Agent {
 						position[1] = y;
 					} else {
 						sortDirection();
-						//move();
+//						move();
 					}
 				}
 				break;
@@ -143,7 +143,7 @@ public class Agent {
 						position[1] = y;
 					} else {
 						sortDirection();
-						//move();
+//						move();
 					}
 
 				}
