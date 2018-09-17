@@ -1,5 +1,5 @@
 
-public class State {
+public class State implements Comparable<State> {
 	/*
 	 * para cada vizinha, vê custo da vizinha até o objetivo, custo da vizinha até o
 	 * inicio(anterior+1), e soma desses dois q gera o custo final. Custo = número
@@ -32,6 +32,17 @@ public class State {
 
 	public int[] getPosition() {
 		return position;
+	}
+
+	@Override
+	public int compareTo(State other_state) {
+		if (this.cost_final < other_state.getCost_final()) {
+			return -1;
+		}
+		if (this.cost_final > other_state.getCost_final()) {
+			return 1;
+		}
+		return 0;
 	}
 
 }
