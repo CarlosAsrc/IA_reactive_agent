@@ -39,19 +39,23 @@ public class A_star {
 
 		ArrayList<State> open_list = new ArrayList<State>();
 		ArrayList<State> closed_list = new ArrayList<State>();
-		
-		//
+
 		ArrayList<State> path = new ArrayList<State>();
 
 		int[] current = new int[2];
-		ArrayList<int[]> current_sons = new ArrayList<int[]>();
 
 		State inicial = new State(0, 0, 0, this.inicio);
 		int count = 0;
 
 		open_list.add(inicial);
 
-		while (!open_list.isEmpty()) {
+		int controla = 0;
+
+		State menor_vizinho = new State();
+		double menor_custo_vizinho = 50000000;
+
+		while /* (!open_list.isEmpty()) */ (controla < 15) {
+
 			// pega primeiro elemento da lista aberta (aquele com menor custo)
 			State current_state = open_list.get(0);
 			current = open_list.get(0).getPosition();
@@ -63,31 +67,31 @@ public class A_star {
 				break;
 			}
 
-			// pega vizinhos
-			// vizinhos.add(e)
-
 			// ignora qnd sao obstaculos
 			ArrayList<int[]> vizinhos = getVizinhos(current);
 
 			for (int[] v : vizinhos) {
-				// descobrir como checar custos
+
 				int cost_initial = count;
 				double cost_goal = calcHeuristic(current, this.objetivo);
 				double cost_final = cost_initial + cost_goal;
 				State vizinho = new State(cost_goal, cost_initial, cost_final, v);
 
+				if (cost_final < menor_custo_vizinho)
+					menor_vizinho = vizinho;
+
 				boolean contains = false;
 
 				// testa se vizinho já está em open_list ou closed_list
 				for (State s : open_list) {
-					if (s.getPosition().equals(v)) {
+					if (s.getPosition()[0] == v[0] && s.getPosition()[1] == v[1]) {
 						contains = true;
 						break;
 					}
 				}
 				if (!contains)
 					for (State s : closed_list) {
-						if (s.getPosition().equals(v)) {
+						if (s.getPosition()[0] == v[0] && s.getPosition()[1] == v[1]) {
 							contains = true;
 							break;
 						}
@@ -98,12 +102,21 @@ public class A_star {
 			}
 
 			closed_list.add(current_state);
-			sort(open_list);
+			Collections.sort(open_list);
+			for (State s : open_list) {
+				System.out.println("Open list: " + s.getCost_final());
+			}
+			
 			vizinhos.clear();
 			open_list.remove(current_state);
 			count++;
+			path.add(menor_vizinho);
+			controla++;
 		}
-
+		for (State s : path) {
+			
+			System.out.println("PATH: " +s.getPosition()[0]+","+s.getPosition()[1]+" custo: "+ s.getCost_final());
+		}
 	}
 
 	public ArrayList<int[]> getVizinhos(int[] current) {
@@ -153,27 +166,6 @@ public class A_star {
 
 		return vizinhos;
 	}
-	/*
-	 * public double sort(ArrayList<State> list) { /* Collections.sort(fruits, new
-	 * Comparator<Fruit>() {
-	 * 
-	 * @Override public int compare(Fruit fruit2, Fruit fruit1) {
-	 * 
-	 * return fruit1.fruitName.compareTo(fruit2.fruitName); } });
-	 * 
-	 * Collections.sort(list, new Comparator<State>() {
-	 * 
-	 * @Override public int compare(State s2, State s1) { return
-	 * s1.getCost_final().compareTo(s2.getCost_final()); } });
-	 * 
-	 * }
-	 * 
-	 * 
-	 * for(
-	 * 
-	 * State s:list) { System.out.println("Custo final: " + s.getCost_final()); //
-	 * s.getCost_final() } }
-	 */
 
 	/*
 	 * Gera a função heuristica do estado corrente
@@ -187,3 +179,4 @@ public class A_star {
 	}
 
 }
+

@@ -17,11 +17,6 @@ public class Agent {
 	public Agent(Maze maze) {
 		this.maze = maze;
 		sortDirection();
-
-		int[] saida = new int[2];
-
-		//A_star a = new A_star(maze.getAgentPosition(), this.maze.getSaidaPosition(), this.maze);
-		//a.run();
 	}
 
 	
