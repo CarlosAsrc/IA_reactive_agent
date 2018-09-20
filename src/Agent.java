@@ -39,7 +39,7 @@ public class Agent {
 			coin.stream().forEach(c -> {System.out.print("  "+c);});
 			System.out.print("\nPosicao atual   X: "+maze.getAgentPosition()[0]);
 			System.out.println("  Y: "+maze.getAgentPosition()[1]);
-			System.out.println("Direcao atual do agente: "+currentDirection);
+			System.out.println("Direcao atual: "+currentDirection);
 			
 			maze.printMaze();
 			Thread.sleep(1000);
