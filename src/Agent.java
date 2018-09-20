@@ -20,7 +20,8 @@ public class Agent {
 	}
 
 	public void explore() throws InterruptedException, IOException {
-		while (coin.size() != maze.getCoins().length) {
+		//while (coin.size() != maze.getCoins().length) {
+		for (int i=0; i<50; i++) {
 			for (int j = 0; j < 50; j++) {
 				System.out.println();
 			}
