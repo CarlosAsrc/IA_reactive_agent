@@ -11,6 +11,9 @@ public class State implements Comparable<State> {
 	private double cost_final = 0;
 	private int[] position = new int[2];
 
+	public State() {
+	}
+
 	public State(double cg, int ci, double cf, int[] p) {
 		this.cost_goal = cg;
 		this.cost_initial = ci;

@@ -6,5 +6,8 @@ public class Main {
 		Agent agent = new Agent(maze);
 		System.out.println("\n");
 		agent.explore();
+
+		//A_star a = new A_star(maze.getAgentPosition(), maze.getSaidaPosition(), maze);
+		//a.run();
 	}
 }
