@@ -13,6 +13,10 @@ public class Maze {
 	// temporario. Algoritmo de busca vai ter q achar saida no labirinto depois.
 	private int[] saida = new int[2];
 
+	public int[] getCoins() {
+		return coins;
+	}
+
 	// Agente: A
 	// Parede: P
 	// Buraco: O

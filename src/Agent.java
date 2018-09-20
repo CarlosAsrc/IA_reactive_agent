@@ -21,7 +21,7 @@ public class Agent {
 
 	
 	public void explore() throws InterruptedException, IOException {
-		for(int i=0; i<1000; i++) {
+		while(coin.size()!=maze.getCoins().length) {
 			for (int j=0; j<50; j++){System.out.println();}
 			scan();
 			move();
@@ -37,7 +37,7 @@ public class Agent {
 			System.out.println("Direcao atual: "+currentDirection);
 			
 			maze.printMaze();
-			Thread.sleep(1000);
+			Thread.sleep(100);
 
 	}
 }
@@ -45,6 +45,7 @@ public class Agent {
 	public void explorePos() {
 		if(currentPositionContent.replaceAll(" ", "").matches("^[0-9]{2}|^[0-9]")) {
 			coin.add(Integer.parseInt(currentPositionContent.replaceAll(" ", "")));
+			currentPositionContent = "  -  ";
 		}
 	}
 
