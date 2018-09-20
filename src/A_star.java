@@ -60,7 +60,7 @@ public class A_star {
 			State current_state = open_list.get(0);
 
 			current = open_list.get(0).getPosition();
-			open_list.remove(0);
+			
 
 			// checa se posição atual é a posição do objetivo(baú ou saida)
 			if ((current[0] == this.objetivo[0]) && (current[1] == this.objetivo[1])) {
