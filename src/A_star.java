@@ -47,15 +47,13 @@ public class A_star {
 
 		double cg = calcHeuristic(this.inicio, this.objetivo);
 		double cf = 0 + cg;
-		State inicial = new State(cg, 0, cf, this.inicio);
+		State inicial = new State(this.inicio, cg, 0, cf, this.inicio);
 		int count = 0;
 
 		open_list.add(inicial);
 
-		int controla = 0;
-
-		State menor_vizinho = new State();
-		double menor_custo_vizinho = 50000000.0;
+		State menor_vizinho = null;
+		double menor_custo_vizinho = 50000000000.0;
 
 		while (!open_list.isEmpty()) {
 
@@ -64,7 +62,7 @@ public class A_star {
 
 			// checa se posição atual é a posição do objetivo(baú ou saida)
 			if ((current[0] == this.objetivo[0]) && (current[1] == this.objetivo[1])) {
-				System.out.println("Achou final: " +this.objetivo[0]+","+this.objetivo[1]);
+				System.out.println("Achou final: " + this.objetivo[0] + "," + this.objetivo[1]);
 				break;
 			}
 
@@ -76,11 +74,12 @@ public class A_star {
 				int cost_initial = count;
 				double cost_goal = calcHeuristic(current, this.objetivo);
 				double cost_final = cost_initial + cost_goal;
-				State vizinho = new State(cost_goal, cost_initial, cost_final, v);
+
+				int[] pos_pai = current;
+				State vizinho = new State(pos_pai, cost_goal, cost_initial, cost_final, v);
 
 				if (cost_final < menor_custo_vizinho)
 					menor_vizinho = vizinho;
-
 				boolean contains = false;
 
 				// testa se vizinho já está em open_list ou closed_list
@@ -102,16 +101,31 @@ public class A_star {
 					open_list.add(vizinho);
 			}
 
+			System.out.println("menor vizinho: ");
+
+			System.out.println(menor_vizinho.getPosition()[0] + "," + menor_vizinho.getPosition()[1]);
+			System.out.println(menor_vizinho.getPos_pai()[0] + "," + menor_vizinho.getPos_pai()[1]);
+
+			System.out.println("Atual: " + open_list.get(0).getPosition()[0] + "," + open_list.get(0).getPosition()[1]);
 			closed_list.add(open_list.get(0));
+			open_list.remove(open_list.get(0));
+
 			Collections.sort(open_list);
 
-			vizinhos.clear();
-			open_list.remove(open_list.get(0));
-			count++;
 			path.add(menor_vizinho);
-			controla++;
+
+			// int index = path.indexOf(open_list.get(0));
+			// System.out.println("index do atual: " + index);
+			//
+			// if (path.get(path.size() - 1).getPosition() == menor_vizinho.getPos_pai())
+			// path.add(menor_vizinho);
+
+			vizinhos.clear();
+
+			count++;
 		}
 		for (State s : path) {
+			System.out.println("Posição pai" + s.getPos_pai()[0] + "," + s.getPos_pai()[1]);
 			System.out
 					.println("PATH: " + s.getPosition()[0] + "," + s.getPosition()[1] + " custo: " + s.getCost_final());
 		}
