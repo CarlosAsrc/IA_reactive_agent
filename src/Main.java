@@ -7,7 +7,7 @@ public class Main {
 		System.out.println("\n");
 		agent.explore();
 
-		//A_star a = new A_star(maze.getAgentPosition(), maze.getSaidaPosition(), maze);
-		//a.run();
+		A_star a = new A_star(maze.getAgentPosition(), maze.getSaidaPosition(), maze);
+		a.run();
 	}
 }

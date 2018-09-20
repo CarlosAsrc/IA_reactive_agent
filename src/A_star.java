@@ -52,18 +52,19 @@ public class A_star {
 		int controla = 0;
 
 		State menor_vizinho = new State();
-		double menor_custo_vizinho = 50000000;
+		double menor_custo_vizinho = 50000000.0;
 
 		while /* (!open_list.isEmpty()) */ (controla < 15) {
 
 			// pega primeiro elemento da lista aberta (aquele com menor custo)
 			State current_state = open_list.get(0);
+			System.out.println("CURRENT " + current_state.getCost_final());
 			current = open_list.get(0).getPosition();
 			System.out.println("current: " + current[0] + " " + current[1]);
 			open_list.remove(0);
 
 			// checa se posição atual é a posição do objetivo(baú ou saida)
-			if (current == this.objetivo) {
+			if ((current[0] == this.objetivo[0]) && (current[1] == this.objetivo[1])) {
 				break;
 			}
 
@@ -77,8 +78,10 @@ public class A_star {
 				double cost_final = cost_initial + cost_goal;
 				State vizinho = new State(cost_goal, cost_initial, cost_final, v);
 
-				if (cost_final < menor_custo_vizinho)
+				if (cost_final < menor_custo_vizinho) {
 					menor_vizinho = vizinho;
+					System.out.println("Pegou menor vizinho!");
+				}
 
 				boolean contains = false;
 
@@ -106,7 +109,7 @@ public class A_star {
 			for (State s : open_list) {
 				System.out.println("Open list: " + s.getCost_final());
 			}
-			
+
 			vizinhos.clear();
 			open_list.remove(current_state);
 			count++;
@@ -114,8 +117,8 @@ public class A_star {
 			controla++;
 		}
 		for (State s : path) {
-			
-			System.out.println("PATH: " +s.getPosition()[0]+","+s.getPosition()[1]+" custo: "+ s.getCost_final());
+
+			System.out.println("PATH: " + s.getPosition()[0] + "," + s.getPosition()[1] + " custo: " + s.getCost_final());
 		}
 	}
 
@@ -179,4 +182,3 @@ public class A_star {
 	}
 
 }
-
