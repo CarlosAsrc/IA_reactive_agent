@@ -42,7 +42,7 @@ public class Agent {
 			System.out.println("Direcao atual: " + currentDirection);
 
 			maze.printMaze();
-			Thread.sleep(100);
+			Thread.sleep(1);
 
 		}
 	}

@@ -78,10 +78,8 @@ public class A_star {
 				double cost_final = cost_initial + cost_goal;
 				State vizinho = new State(cost_goal, cost_initial, cost_final, v);
 
-				if (cost_final < menor_custo_vizinho) {
+				if (cost_final < menor_custo_vizinho)
 					menor_vizinho = vizinho;
-					System.out.println("Pegou menor vizinho!");
-				}
 
 				boolean contains = false;
 
@@ -104,21 +102,18 @@ public class A_star {
 					open_list.add(vizinho);
 			}
 
-			closed_list.add(current_state);
+			closed_list.add(open_list.get(0));
 			Collections.sort(open_list);
-			for (State s : open_list) {
-				System.out.println("Open list: " + s.getCost_final());
-			}
 
 			vizinhos.clear();
-			open_list.remove(current_state);
+			open_list.remove(open_list.get(0));
 			count++;
 			path.add(menor_vizinho);
 			controla++;
 		}
 		for (State s : path) {
-
-			System.out.println("PATH: " + s.getPosition()[0] + "," + s.getPosition()[1] + " custo: " + s.getCost_final());
+			System.out
+					.println("PATH: " + s.getPosition()[0] + "," + s.getPosition()[1] + " custo: " + s.getCost_final());
 		}
 	}
 
@@ -160,13 +155,6 @@ public class A_star {
 				vizinhos.add(position);
 			}
 		}
-
-		for (int[] num : vizinhos) {
-			System.out.println("Vizinhos: ");
-			System.out.println(num[0]);
-			System.out.println(num[1]);
-		}
-
 		return vizinhos;
 	}
 
@@ -175,9 +163,7 @@ public class A_star {
 	 *
 	 */
 	public double calcHeuristic(int[] current, int[] goal) {
-		System.out.println("Pontos: " + current[0] + " " + current[1] + " goal " + goal[0] + " " + goal[1]);
 		double distance = Math.hypot(current[0] - goal[0], current[1] - goal[1]);
-		System.out.println("Distancia : " + distance);
 		return distance;
 	}
 
