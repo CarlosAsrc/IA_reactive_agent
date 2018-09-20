@@ -58,9 +58,8 @@ public class A_star {
 
 			// pega primeiro elemento da lista aberta (aquele com menor custo)
 			State current_state = open_list.get(0);
-			System.out.println("CURRENT " + current_state.getCost_final());
+
 			current = open_list.get(0).getPosition();
-			System.out.println("current: " + current[0] + " " + current[1]);
 			open_list.remove(0);
 
 			// checa se posição atual é a posição do objetivo(baú ou saida)
@@ -127,6 +126,7 @@ public class A_star {
 		position[1] = current[1];
 		if (this.maze[position[0]][position[1]] != null || (!this.maze[position[0]][position[1]].contains("P"))
 				|| (!this.maze[position[0]][position[1]].contains("O"))) {
+			System.out.println("Position q vai ser adicionada: " + this.maze[position[0]][position[1]]);
 			vizinhos.add(position);
 		}
 
@@ -136,6 +136,7 @@ public class A_star {
 		if (position[0] >= 0) {
 			if (this.maze[position[0]][position[1]] != null || (!this.maze[position[0]][position[1]].contains("P"))
 					|| (!this.maze[position[0]][position[1]].contains("O"))) {
+				System.out.println("Position q vai ser adicionada: " + this.maze[position[0]][position[1]]);
 				vizinhos.add(position);
 			}
 		}
@@ -144,6 +145,7 @@ public class A_star {
 		position[1] = current[1] + 1;
 		if (this.maze[position[0]][position[1]] != null || (!this.maze[position[0]][position[1]].contains("P"))
 				|| (!this.maze[position[0]][position[1]].contains("O"))) {
+			System.out.println("Position q vai ser adicionada: " + this.maze[position[0]][position[1]]);
 			vizinhos.add(position);
 		}
 		position = new int[2];
@@ -152,6 +154,7 @@ public class A_star {
 		if (position[1] >= 0) {
 			if (this.maze[position[0]][position[1]] != null || (!this.maze[position[0]][position[1]].contains("P"))
 					|| (!this.maze[position[0]][position[1]].contains("O"))) {
+				System.out.println("Position q vai ser adicionada: " + this.maze[position[0]][position[1]]);
 				vizinhos.add(position);
 			}
 		}
