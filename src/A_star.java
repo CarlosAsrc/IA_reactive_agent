@@ -5,13 +5,14 @@ import java.util.Comparator;
 public class A_star {
 	private int[] inicio = new int[2];
 	private int[] objetivo = new int[2];
+	Agent ag = null;
 
 	private String[][] maze = null;
 
-	public A_star(int[] i, int[] o, Maze m) {
+	public A_star(Agent a, int[] i, int[] o, Maze m) {
 		this.inicio = i;
 		this.objetivo = o;
-
+		this.ag = a;
 		this.maze = m.getMaze();
 	}
 
@@ -44,7 +45,9 @@ public class A_star {
 
 		int[] current = new int[2];
 
-		State inicial = new State(0, 0, 0, this.inicio);
+		double cg = calcHeuristic(this.inicio, this.objetivo);
+		double cf = 0 + cg;
+		State inicial = new State(cg, 0, cf, this.inicio);
 		int count = 0;
 
 		open_list.add(inicial);
@@ -54,16 +57,14 @@ public class A_star {
 		State menor_vizinho = new State();
 		double menor_custo_vizinho = 50000000.0;
 
-		while /* (!open_list.isEmpty()) */ (controla < 15) {
+		while (!open_list.isEmpty()) {
 
 			// pega primeiro elemento da lista aberta (aquele com menor custo)
-			State current_state = open_list.get(0);
-
 			current = open_list.get(0).getPosition();
-			
 
 			// checa se posição atual é a posição do objetivo(baú ou saida)
 			if ((current[0] == this.objetivo[0]) && (current[1] == this.objetivo[1])) {
+				System.out.println("Achou final: " +this.objetivo[0]+","+this.objetivo[1]);
 				break;
 			}
 
@@ -121,42 +122,47 @@ public class A_star {
 
 		// ignora qnd sao obstaculos
 		int[] position = new int[2];
-
-		position[0] = current[0] + 1;
-		position[1] = current[1];
 		try {
-			if (this.maze[position[0]][position[1]] != null && (!this.maze[position[0]][position[1]].contains("P"))
-					&& (!this.maze[position[0]][position[1]].contains("O"))) {
-				System.out.println("Position q vai ser adicionada: " + this.maze[position[0]][position[1]]);
-				vizinhos.add(position);
+			position[0] = current[0] + 1;
+			position[1] = current[1];
+			if (ag.validRangePos(position[0], position[1])) {
+				if (this.maze[position[0]][position[1]] != null && (!this.maze[position[0]][position[1]].contains("P"))
+						&& (!this.maze[position[0]][position[1]].contains("O"))) {
+					vizinhos.add(position);
+				}
 			}
 
 			position = new int[2];
 			position[0] = current[0] - 1;
 			position[1] = current[1];
-			if (position[0] >= 0) {
-				if (this.maze[position[0]][position[1]] != null && (!this.maze[position[0]][position[1]].contains("P"))
-						&& (!this.maze[position[0]][position[1]].contains("O"))) {
-					System.out.println("Position q vai ser adicionada: " + this.maze[position[0]][position[1]]);
-					vizinhos.add(position);
+			if (ag.validRangePos(position[0], position[1])) {
+				if (position[0] >= 0) {
+					if (this.maze[position[0]][position[1]] != null
+							&& (!this.maze[position[0]][position[1]].contains("P"))
+							&& (!this.maze[position[0]][position[1]].contains("O"))) {
+						vizinhos.add(position);
+					}
 				}
 			}
 			position = new int[2];
 			position[0] = current[0];
 			position[1] = current[1] + 1;
-			if (this.maze[position[0]][position[1]] != null && (!this.maze[position[0]][position[1]].contains("P"))
-					&& (!this.maze[position[0]][position[1]].contains("O"))) {
-				System.out.println("Position q vai ser adicionada: " + this.maze[position[0]][position[1]]);
-				vizinhos.add(position);
+			if (ag.validRangePos(position[0], position[1])) {
+				if (this.maze[position[0]][position[1]] != null && (!this.maze[position[0]][position[1]].contains("P"))
+						&& (!this.maze[position[0]][position[1]].contains("O"))) {
+					vizinhos.add(position);
+				}
 			}
 			position = new int[2];
 			position[0] = current[0];
 			position[1] = current[1] - 1;
-			if (position[1] >= 0) {
-				if (this.maze[position[0]][position[1]] != null && (!this.maze[position[0]][position[1]].contains("P"))
-						&& (!this.maze[position[0]][position[1]].contains("O"))) {
-					System.out.println("Position q vai ser adicionada: " + this.maze[position[0]][position[1]]);
-					vizinhos.add(position);
+			if (ag.validRangePos(position[0], position[1])) {
+				if (position[1] >= 0) {
+					if (this.maze[position[0]][position[1]] != null
+							&& (!this.maze[position[0]][position[1]].contains("P"))
+							&& (!this.maze[position[0]][position[1]].contains("O"))) {
+						vizinhos.add(position);
+					}
 				}
 			}
 		} catch (Exception e) {

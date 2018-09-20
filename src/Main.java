@@ -7,7 +7,9 @@ public class Main {
 		System.out.println("\n");
 		agent.explore();
 
-		A_star a = new A_star(maze.getAgentPosition(), maze.getSaidaPosition(), maze);
+		System.out.println("Posição do agente: " + maze.getAgentPosition()[0] + "," + maze.getAgentPosition()[1]);
+		System.out.println("Posição do saida: " + maze.getSaidaPosition()[0] + "," + maze.getSaidaPosition()[1]);
+		A_star a = new A_star(agent,maze.getAgentPosition(), maze.getSaidaPosition(), maze);
 		a.run();
 	}
 }
