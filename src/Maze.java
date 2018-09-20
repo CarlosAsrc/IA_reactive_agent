@@ -13,6 +13,10 @@ public class Maze {
 	// temporario. Algoritmo de busca vai ter q achar saida no labirinto depois.
 	private int[] saida = new int[2];
 
+	public int[] getCoins() {
+		return coins;
+	}
+
 	// Agente: A
 	// Parede: P
 	// Buraco: O
@@ -278,11 +282,13 @@ public class Maze {
 	}
 
 	public void printMaze() {
+		System.out.println("    |0|  |1|  |2|  |3|  |4|  |5|  |6|  |7|  |8|  |9|");
 		for (int i = 0; i < maze.length; i++) {
+			System.out.print("|"+i+"|");
 			for (int j = 0; j < maze[0].length; j++) {
 				System.out.print(maze[i][j]);
 			}
-			System.out.println();
+			System.out.println("\n");
 		}
 	}
 
