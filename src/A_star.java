@@ -23,18 +23,18 @@ public class A_star {
 		 * lista_aberta[0] = inicio //coloca vizinhos dela na lista aberta
 		 * lista_aberta.add inicio+1 inicio-1
 		 * 
-		 * para cada vizinha, vê custo da vizinha até o objetivo, custo da vizinha até o
-		 * inicio(anterior+1), e soma desses dois q gera o custo final. Custo = número
+		 * para cada vizinha, vï¿½ custo da vizinha atï¿½ o objetivo, custo da vizinha atï¿½ o
+		 * inicio(anterior+1), e soma desses dois q gera o custo final. Custo = nï¿½mero
 		 * de casas
 		 * 
-		 * casa atual então vai p lista fechada
+		 * casa atual entï¿½o vai p lista fechada
 		 * 
 		 * ordena lista aberta em ordem crescente de custos
 		 * 
-		 * então vai p quem tá no topo da lista aberta (aquele com menor custo). Repete
-		 * passos anteriores. Obstáculos são ignorados na análise de vizinhos. O que já
-		 * foi computado e já ta na lista aberta não é analisado de novo quando é
-		 * vizinho novamente. Analisa apenas vizinhos livres(que não estão em nenhuma
+		 * entï¿½o vai p quem tï¿½ no topo da lista aberta (aquele com menor custo). Repete
+		 * passos anteriores. Obstï¿½culos sï¿½o ignorados na anï¿½lise de vizinhos. O que jï¿½
+		 * foi computado e jï¿½ ta na lista aberta nï¿½o ï¿½ analisado de novo quando ï¿½
+		 * vizinho novamente. Analisa apenas vizinhos livres(que nï¿½o estï¿½o em nenhuma
 		 * das listas).
 		 */
 
@@ -60,7 +60,7 @@ public class A_star {
 			// pega primeiro elemento da lista aberta (aquele com menor custo)
 			current = open_list.get(0).getPosition();
 
-			// checa se posição atual é a posição do objetivo(baú ou saida)
+			// checa se posiï¿½ï¿½o atual ï¿½ a posiï¿½ï¿½o do objetivo(baï¿½ ou saida)
 			if ((current[0] == this.objetivo[0]) && (current[1] == this.objetivo[1])) {
 				System.out.println("Achou final: " + this.objetivo[0] + "," + this.objetivo[1]);
 				break;
@@ -82,7 +82,7 @@ public class A_star {
 					menor_vizinho = vizinho;
 				boolean contains = false;
 
-				// testa se vizinho já está em open_list ou closed_list
+				// testa se vizinho jï¿½ estï¿½ em open_list ou closed_list
 				for (State s : open_list) {
 					if (s.getPosition()[0] == v[0] && s.getPosition()[1] == v[1]) {
 						contains = true;
@@ -125,7 +125,7 @@ public class A_star {
 			count++;
 		}
 		for (State s : path) {
-			System.out.println("Posição pai" + s.getPos_pai()[0] + "," + s.getPos_pai()[1]);
+			System.out.println("Posiï¿½ï¿½o pai" + s.getPos_pai()[0] + "," + s.getPos_pai()[1]);
 			System.out
 					.println("PATH: " + s.getPosition()[0] + "," + s.getPosition()[1] + " custo: " + s.getCost_final());
 		}
@@ -186,11 +186,15 @@ public class A_star {
 	}
 
 	/*
-	 * Gera a função heuristica do estado corrente
+	 * Gera a funï¿½ï¿½o heuristica do estado corrente
 	 *
 	 */
-	public double calcHeuristic(int[] current, int[] goal) {
-		double distance = Math.hypot(current[0] - goal[0], current[1] - goal[1]);
+//	public double calcHeuristic(int[] current, int[] goal) {
+//		double distance = Math.hypot(current[0] - goal[0], current[1] - goal[1]);
+//		return distance;
+//	}
+	public int calcHeuristic(int[] current, int[] goal) {
+		int distance = Math.abs(current[0] - goal[0]) + Math.abs(current[1] - current[1]);
 		return distance;
 	}
 
