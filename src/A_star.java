@@ -19,18 +19,18 @@ public class A_star {
 	public void run() {
 		/*
 		 * lista_aberta lista_fechada
-		 * 
+		 *
 		 * lista_aberta[0] = inicio //coloca vizinhos dela na lista aberta
 		 * lista_aberta.add inicio+1 inicio-1
-		 * 
+		 *
 		 * para cada vizinha, v� custo da vizinha at� o objetivo, custo da vizinha at� o
 		 * inicio(anterior+1), e soma desses dois q gera o custo final. Custo = n�mero
 		 * de casas
-		 * 
+		 *
 		 * casa atual ent�o vai p lista fechada
-		 * 
+		 *
 		 * ordena lista aberta em ordem crescente de custos
-		 * 
+		 *
 		 * ent�o vai p quem t� no topo da lista aberta (aquele com menor custo). Repete
 		 * passos anteriores. Obst�culos s�o ignorados na an�lise de vizinhos. O que j�
 		 * foi computado e j� ta na lista aberta n�o � analisado de novo quando �
@@ -51,6 +51,8 @@ public class A_star {
 		int count = 0;
 
 		open_list.add(inicial);
+		// adiciona posiçao inicial do agente como primeiro elemento do path final - testar
+		path.add(inicial);
 
 		State menor_vizinho = null;
 		double menor_custo_vizinho = 50000000000.0;
@@ -60,7 +62,7 @@ public class A_star {
 			// pega primeiro elemento da lista aberta (aquele com menor custo)
 			current = open_list.get(0).getPosition();
 
-			// checa se posi��o atual � a posi��o do objetivo(ba� ou saida)
+			// checa se posicao atual e a posicao do objetivo(bau ou saida)
 			if ((current[0] == this.objetivo[0]) && (current[1] == this.objetivo[1])) {
 				System.out.println("Achou final: " + this.objetivo[0] + "," + this.objetivo[1]);
 				break;
@@ -80,9 +82,10 @@ public class A_star {
 
 				if (cost_final < menor_custo_vizinho)
 					menor_vizinho = vizinho;
+
 				boolean contains = false;
 
-				// testa se vizinho j� est� em open_list ou closed_list
+				// testa se vizinho ja esta em open_list ou closed_list
 				for (State s : open_list) {
 					if (s.getPosition()[0] == v[0] && s.getPosition()[1] == v[1]) {
 						contains = true;
@@ -107,27 +110,26 @@ public class A_star {
 			System.out.println(menor_vizinho.getPos_pai()[0] + "," + menor_vizinho.getPos_pai()[1]);
 
 			System.out.println("Atual: " + open_list.get(0).getPosition()[0] + "," + open_list.get(0).getPosition()[1]);
+
+			State atual = open_list.get(0);
 			closed_list.add(open_list.get(0));
 			open_list.remove(open_list.get(0));
+
 
 			Collections.sort(open_list);
 
 			path.add(menor_vizinho);
-
-			// int index = path.indexOf(open_list.get(0));
-			// System.out.println("index do atual: " + index);
-			//
-			// if (path.get(path.size() - 1).getPosition() == menor_vizinho.getPos_pai())
-			// path.add(menor_vizinho);
+			// ou
+			//path.add(atual);
 
 			vizinhos.clear();
 
 			count++;
 		}
-		for (State s : path) {
-			System.out.println("Posi��o pai" + s.getPos_pai()[0] + "," + s.getPos_pai()[1]);
-			System.out
-					.println("PATH: " + s.getPosition()[0] + "," + s.getPosition()[1] + " custo: " + s.getCost_final());
+		 ArrayList<State> finalPath = reconstructPath(path);
+		for (State s :finalPath) {
+	  	//	System.out.println("Posi��o pai" + s.getPos_pai()[0] + "," + s.getPos_pai()[1]);
+			System.out.println("PATH: " + s.getPosition()[0] + "," + s.getPosition()[1] + " custo: " + s.getCost_final());
 		}
 	}
 
@@ -185,6 +187,29 @@ public class A_star {
 		return vizinhos;
 	}
 
+	private static ArrayList<State> reconstructPath(ArrayList<State> path){
+		 // começa com último elemento do path, que é o state "objetivo"
+		 State current = path.get(path.size() - 1);
+
+		 ArrayList<State> finalPath = new ArrayList<State>();
+		 finalPath.add(current);
+
+		 while(path.size() > 0){
+			 	for (State s : path) {
+					if(s.getPosition() == current.getPos_pai){
+						// current vai pro state anterior o atual, p/ o nodo came_from
+						 State current = s;
+						 finalPath.add(current);
+						 break;
+					}
+
+				}
+
+				path.remove(current)
+		 }
+
+	}
+
 	/*
 	 * Gera a fun��o heuristica do estado corrente
 	 *
@@ -194,7 +219,7 @@ public class A_star {
 //		return distance;
 //	}
 	public int calcHeuristic(int[] current, int[] goal) {
-		int distance = Math.abs(current[0] - goal[0]) + Math.abs(current[1] - current[1]);
+		int distance = Math.abs(current[0] - goal[0]) + Math.abs(current[1] - goal[1]);
 		return distance;
 	}
 
