@@ -40,7 +40,7 @@ public class A_star {
 
 		ArrayList<State> open_list = new ArrayList<State>();
 		ArrayList<State> closed_list = new ArrayList<State>();
-
+		ArrayList<State> finalPath = new ArrayList<State>();
 		ArrayList<State> path = new ArrayList<State>();
 
 		int[] current = new int[2];
@@ -67,11 +67,11 @@ public class A_star {
 				System.out.println("Achou final: " + this.objetivo[0] + "," + this.objetivo[1]);
 //				open_list.forEach(s-> {System.out.print(" "+s.getPosition()[0]+s.getPosition()[1]);});
 //				System.out.println();
-//				closed_list.forEach(s-> {System.out.print(" "+s.getPosition()[0]+s.getPosition()[1]);});
-//				System.out.println();
+				closed_list.forEach(s-> {System.out.print(" "+s.getPosition()[0]+s.getPosition()[1]);});
+				System.out.println();
 //				path.forEach(s-> {System.out.print(" "+s.getPosition()[0]+s.getPosition()[1]);});
 //				System.out.println();
-				reconstructPath(closed_list);
+				finalPath = reconstructPath(closed_list);
 				//findPath(searchByFatherPos(closed_list,current[0],current[1]).getPosition(), closed_list);
 				break;
 			}
@@ -134,11 +134,11 @@ public class A_star {
 
 			count++;
 		}
-		 //ArrayList<State> finalPath = reconstructPath(path);
-//		for (State s :path) {
-//	  	//	System.out.println("Posi��o pai" + s.getPos_pai()[0] + "," + s.getPos_pai()[1]);
-//			System.out.println("PATH: " + s.getPosition()[0] + "," + s.getPosition()[1] + " custo: " + s.getCost_final());
-//		}
+		 
+		for (State s :finalPath) {
+	  	//	System.out.println("Posi��o pai" + s.getPos_pai()[0] + "," + s.getPos_pai()[1]);
+			System.out.println("PATH: " + s.getPosition()[0] + "," + s.getPosition()[1] + " custo: " + s.getCost_final());
+		}
 	}
 
 	public ArrayList<int[]> getVizinhos(int[] current) {
@@ -195,20 +195,21 @@ public class A_star {
 		return vizinhos;
 	}
 
-	private static ArrayList<State> reconstructPath(ArrayList<State> path){
+	private  ArrayList<State> reconstructPath(ArrayList<State> path){
 		 // começa com último elemento do path, que é o state "objetivo"
 		 State current = path.get(path.size() - 1);
 
 		 ArrayList<State> finalPath = new ArrayList<State>();
 		 finalPath.add(current);
-
-		 while(path.size() > 0){
+		 int i=0;
+		 while(i<calcHeuristic(this.inicio, this.objetivo)){
 			 	for (State s : path) {
 					if(s.getPosition()[0] == current.getPos_pai()[0] && s.getPosition()[1] == current.getPos_pai()[1]){
 						// current vai pro state anterior o atual, p/ o nodo came_from
 						 current = s;
 						 finalPath.add(current);
-						 System.out.println(" - "+current.getPosition()[0]+current.getPosition()[1]);
+						 i++;
+						 //System.out.print(" - "+current.getPosition()[0]+current.getPosition()[1]);
 						 break;
 					}
 
@@ -216,6 +217,7 @@ public class A_star {
 
 				path.remove(current);
 		 }
+		 Collections.reverse(finalPath);
 		 return finalPath;
 
 	}
@@ -228,40 +230,8 @@ public class A_star {
 //		double distance = Math.hypot(current[0] - goal[0], current[1] - goal[1]);
 //		return distance;
 //	}
-	public int calcHeuristic(int[] current, int[] goal) {
+	public  int calcHeuristic(int[] current, int[] goal) {
 		int distance = Math.abs(current[0] - goal[0]) + Math.abs(current[1] - goal[1]);
 		return distance;
 	}
-	
-//	
-//	public void findPath(int [] current, ArrayList<State> list) {
-//		for(State s: list) {
-//			if(s.getPosition()[0]==current[0] && s.getPosition()[1]==current[1]) {
-//				int x = s.getPos_pai()[0];
-//				int y = s.getPos_pai()[1];
-//				while(x != this.inicio[0] && y != this.inicio[1]) {
-//					System.out.println("CAMINHO: "+x+" "+y);
-//					State latest = searchByFatherPos(list, x, y);
-//					x = latest.getPos_pai()[0];
-//					y = latest.getPos_pai()[1];
-//				}
-//			}
-//		}
-//	}
-//	public State searchByFatherPos(ArrayList<State> list, int x, int y) {
-//		for(State s: list) {
-//			if(s.getPosition()[0]==x && s.getPosition()[1]==y) {
-//				return searchByPos(list, s.getPos_pai()[0], s.getPos_pai()[1]);
-//			}
-//		}
-//		return null;
-//	}
-//	public State searchByPos(ArrayList<State> list, int x, int y) {
-//		for(State s: list) {
-//			if(s.getPosition()[0]==x && s.getPosition()[1]==y) {
-//				return s;
-//			}
-//		}
-//		return null;
-//	}
 }
