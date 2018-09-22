@@ -12,7 +12,7 @@ public class Main {
 		maze.printMaze();
 		agent.explore();
 
-		Genetic alg_gen = new Genetic();
+		Genetic alg_gen = new Genetic(agent);
 		alg_gen.run();
 		System.out.println("Posicao do agente: " + maze.getAgentPosition()[0] + "," + maze.getAgentPosition()[1]);
 		System.out.println("Posicao do saida: " + maze.getSaidaPosition()[0] + "," + maze.getSaidaPosition()[1]);

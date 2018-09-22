@@ -15,6 +15,10 @@ public class Agent {
 	private Random random = new Random();
 	private int points = 0;
 
+	public ArrayList getCoin() {
+		return coin;
+	}
+
 	public Agent(Maze maze) {
 		this.maze = maze;
 		sortDirection();
