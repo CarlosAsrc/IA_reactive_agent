@@ -15,7 +15,7 @@ public class Genetic {
 	// quando execu�oes param de dar solu�oes novas, ent�o convergiu = fim da
 	// execucao do AG
 	
-	static int[] carga = {5,10,15,3,10,5,2,16,9,7,2,1,3,7,5,1};
+	static int[] carga = { 10, 90, 3, 96, 92, 2, 90, 50, 50, 33, 20, 51, 84, 96, 96, 11 };
 	
 	public Genetic() {
 	}
@@ -28,14 +28,15 @@ public class Genetic {
 		popular(populacao);
 		printPopulacao(populacao, 17);
 
-		for (int i=0;i<5;i++) {
+		for (int i=0;i<10;i++) {
 			System.out.println("\nGeracao " + i);
 			aptidar(populacao);
 			printPopulacao(populacao,17);
 	
 			elitizar(populacao, intermediaria);
-
+//			printPopulacao(populacao,17);
 			gerar(populacao, intermediaria);
+//			printPopulacao(populacao,17);
 		}
 
 	}
@@ -50,6 +51,7 @@ public class Genetic {
 	}
 
 	static void printPopulacao(int[][] populacao, int limite) {
+		System.out.println();
 		for (int i = 0; i < 5; i++) {
 			System.out.print("P: ");
 			for (int j = 0; j < limite-1; j++) {
@@ -117,10 +119,10 @@ public class Genetic {
 		//somar diferenca entre elas
 		int a=0, b=0, c=0, d=0;
 		for (int i = 0; i < 5; i++) {
-			populacao[i][16] = 0;
+			//populacao[i][16] = 0;
 			for (int j = 0; j < 16; j++) {
 				//populacao[i][16] += (populacao[i][j] == 1) ? carga[j] : -carga[j];
-				switch (carga[j]) {
+				switch (populacao[i][j]) {
 					case 0:
 						a=a+carga[j];
 						break;
@@ -134,6 +136,7 @@ public class Genetic {
 						d=d+carga[j];
 					
 				}
+				
 			}
 			int ab, ac, ad, bc, bd, cd;
 			ab = Math.abs(a-b);
@@ -143,6 +146,7 @@ public class Genetic {
 			bd = Math.abs(b-d);
 			cd = Math.abs(c-d);
 			populacao[i][16] = ab+ac+ad+bc+bd+cd;
+			a=0; b=0; c=0; d=0;
 		}
 	}
 }

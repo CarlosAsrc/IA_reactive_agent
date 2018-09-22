@@ -45,7 +45,7 @@ public class Agent {
 			System.out.println("Pontuacao: "+points);
 
 			maze.printMaze();
-			Thread.sleep(1000);
+			Thread.sleep(1);
 
 		}
 	}
