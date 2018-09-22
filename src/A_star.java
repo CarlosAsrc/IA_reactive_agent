@@ -16,7 +16,7 @@ public class A_star {
 		this.maze = m.getMaze();
 	}
 
-	public void run() {
+	public ArrayList<State> run() {
 		/*
 		 * lista_aberta lista_fechada
 		 *
@@ -139,6 +139,7 @@ public class A_star {
 	  	//	System.out.println("Posi��o pai" + s.getPos_pai()[0] + "," + s.getPos_pai()[1]);
 			System.out.println("PATH: " + s.getPosition()[0] + "," + s.getPosition()[1] + " custo: " + s.getCost_final());
 		}
+		return finalPath;
 	}
 
 	public ArrayList<int[]> getVizinhos(int[] current) {

@@ -5,6 +5,24 @@ public class Maze {
 
 	private String[][] maze = new String[10][10];
 	private int[] coins = { 10, 90, 3, 96, 92, 2, 90, 50, 50, 33, 20, 51, 84, 96, 96, 11 };
+	private int [] coinsPositions = new int[32];
+	private int [] holesPositions= new int[10];
+	private int [] chestsPositions = new int[8];
+	int cont;
+	
+	public int[] getCoinsPositions() {
+		return coinsPositions;
+	}
+
+	public int[] getHolesPositions() {
+		return holesPositions;
+	}
+
+	public int[] getChestsPositions() {
+		return chestsPositions;
+	}
+
+
 	private Random random = new Random();
 	private String wallSide = "";
 	private int[] agent_position=null;
@@ -68,6 +86,9 @@ public class Maze {
 					maze[0][i] = "  P  ";
 				if (chests.contains(i)) {
 					maze[1][i] = "  B  ";
+					chestsPositions[cont]=1;
+					chestsPositions[cont+1]=i;
+					cont=cont+2;
 				}
 			}
 			break;
@@ -82,6 +103,10 @@ public class Maze {
 					maze[i][0] = "  P  ";
 				if (chests.contains(i)) {
 					maze[i][1] = "  B  ";
+					chestsPositions[cont]=i;
+					chestsPositions[cont+1]=1;
+					cont=cont+2;
+					
 				}
 			}
 			break;
@@ -96,6 +121,9 @@ public class Maze {
 					maze[maze[0].length - 1][i] = "  P  ";
 				if (chests.contains(i)) {
 					maze[maze[0].length - 2][i] = "  B  ";
+					chestsPositions[cont]=maze[0].length - 2;
+					chestsPositions[cont+1]=i;
+					cont=cont+2;
 				}
 			}
 
@@ -111,10 +139,14 @@ public class Maze {
 					maze[i][maze[0].length - 1] = "  P  ";
 				if (chests.contains(i)) {
 					maze[i][maze[0].length - 2] = "  B  ";
+					chestsPositions[cont]=i;
+					chestsPositions[cont+1]=maze[0].length - 2;
+					cont=cont+2;
 				}
 			}
 			break;
 		}
+		cont = 0;
 		// Constroi os 4 muros internos:
 		int direction;
 		int initialLine, initialColumn;
@@ -174,7 +206,11 @@ public class Maze {
 				}
 			} while (!validation);
 			maze[line][column] = "  O  ";
+			holesPositions[cont]=line;
+			holesPositions[cont+1]=column;
+			cont=cont+2;
 		}
+		cont=0;
 	}
 
 	public boolean validateHolePosition(String holeArea, int line, int column) {
@@ -275,7 +311,11 @@ public class Maze {
 			else {
 				maze[line][column] = " " + coins[i] + "  ";
 			}
+			coinsPositions[cont]=line;
+			coinsPositions[cont+1]=column;
+			cont=cont+2;
 		}
+		cont=0;
 	}
 	// Gera agente no labirinto. Previne que agente fique preso entre paredes. Retorna array com posi��o atual do agente.
 	public int[] generateAgent() {
@@ -335,4 +375,6 @@ public class Maze {
 		lastPositionContent = maze[position[0]][position[1]];
 		maze[position[0]][position[1]] = "  A  ";
 	}
+	
+	
 }
