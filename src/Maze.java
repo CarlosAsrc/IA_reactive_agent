@@ -131,7 +131,7 @@ public class Maze {
 						&& maze[initialLine][initialColumn + 2].equals("  -  ")
 						&& maze[initialLine][initialColumn + 3].equals("  -  ")
 						&& maze[initialLine][initialColumn + 4].equals("  -  ")));
-				for (int j = 0; j < 5; j++) {
+				for (int j = 0; j < 3; j++) {
 					maze[initialLine][initialColumn + j] = "  P  ";
 				}
 				break;
@@ -144,7 +144,7 @@ public class Maze {
 						&& maze[initialLine + 2][initialColumn].equals("  -  ")
 						&& maze[initialLine + 3][initialColumn].equals("  -  ")
 						&& maze[initialLine + 4][initialColumn].equals("  -  ")));
-				for (int j = 0; j < 5; j++) {
+				for (int j = 0; j < 3; j++) {
 					maze[initialLine + j][initialColumn] = "  P  ";
 				}
 				break;
