@@ -13,6 +13,7 @@ public class Agent {
 	private String currentPositionContent = "  -  ";
 	private String currentDirection;
 	private Random random = new Random();
+	private int points = 0;
 
 	public Agent(Maze maze) {
 		this.maze = maze;
@@ -20,8 +21,8 @@ public class Agent {
 	}
 
 	public void explore() throws InterruptedException, IOException {
-		//while (coin.size() != maze.getCoins().length) {
-		for (int i=0; i<50; i++) {
+		while (coin.size() != maze.getCoins().length) {
+		//for (int i=0; i<50; i++) {
 			for (int j = 0; j < 50; j++) {
 				System.out.println();
 			}
@@ -41,16 +42,19 @@ public class Agent {
 			System.out.print("\nPosicao atual   X: " + maze.getAgentPosition()[0]);
 			System.out.println("  Y: " + maze.getAgentPosition()[1]);
 			System.out.println("Direcao atual: " + currentDirection);
+			System.out.println("Pontuacao: "+points);
 
 			maze.printMaze();
-			Thread.sleep(1);
+			Thread.sleep(1000);
 
 		}
 	}
 
 	public void explorePos() {
 		if (currentPositionContent.replaceAll(" ", "").matches("^[0-9]{2}|^[0-9]")) {
-			coin.add(Integer.parseInt(currentPositionContent.replaceAll(" ", "")));
+			int c = Integer.parseInt(currentPositionContent.replaceAll(" ", ""));
+			coin.add(c);
+			points = points + (c*10);
 			currentPositionContent = "  -  ";
 		}
 	}
@@ -97,6 +101,7 @@ public class Agent {
 			if (scanPos(x, y).contains("O") && validPos(x - 1, y)) {
 				position[0] = x - 1;
 				currentPositionContent = maze.getMaze()[position[0]][position[1]];
+				points = points+30;
 				break;
 
 			} else {
@@ -117,6 +122,7 @@ public class Agent {
 			if (scanPos(x, y).contains("O") && validPos(x + 1, y)) {
 				position[0] = x + 1;
 				currentPositionContent = maze.getMaze()[position[0]][position[1]];
+				points = points+30;
 				break;
 
 			} else {
@@ -136,6 +142,7 @@ public class Agent {
 			if (scanPos(x, y).contains("O") && validPos(x, y - 1)) {
 				position[1] = y - 1;
 				currentPositionContent = maze.getMaze()[position[0]][position[1]];
+				points = points+30;
 				break;
 
 			} else {
@@ -155,6 +162,7 @@ public class Agent {
 			if (scanPos(x, y).contains("O") && validPos(x, y + 1)) {
 				position[1] = y + 1;
 				currentPositionContent = maze.getMaze()[position[0]][position[1]];
+				points = points+30;
 				break;
 
 			} else {
