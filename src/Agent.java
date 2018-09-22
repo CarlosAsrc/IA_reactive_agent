@@ -25,14 +25,19 @@ public class Agent {
 	}
 
 	public void explore() throws InterruptedException, IOException {
-		//while (coin.size() != maze.getCoins().length) {
-		for (int i=0; i<50; i++) {
+		while ( ! maze.isExitFree()) {
+		//for (int i=0; i<50; i++) {
 			for (int j = 0; j < 50; j++) {
 				System.out.println();
 			}
-			scan();
-			move();
-			explorePos();
+			if(coin.size() != maze.getCoins().length) {
+				scan();
+				move();
+				explorePos();
+			} else {
+				distributeCoins();
+			}
+			
 
 			System.out.print("Posicao dos baus: ");
 			for (int j = 0; j < 7; j = j + 2) {
@@ -49,7 +54,7 @@ public class Agent {
 			System.out.println("Pontuacao: "+points);
 
 			maze.printMaze();
-			Thread.sleep(1);
+			Thread.sleep(100);
 
 		}
 	}
@@ -260,6 +265,26 @@ public class Agent {
 		}
 		return maze.getMaze()[x][y];
 	}
+	
+	public void distributeCoins() throws InterruptedException {
+		for(int i=0; i<7; i=i+2) {
+			int [] chestsPos= {chestsPositions[i], chestsPositions[i+1]};
+			A_star a = new A_star(this, maze.getAgentPosition(), chestsPos, maze);
+			ArrayList<State> path = a.run();
+			for(State s: path) {
+				currentPositionContent = maze.getMaze()[s.getPosition()[0]] [s.getPosition()[1]];
+				maze.updateAgentPosition(s.getPosition(), maze.getAgentPosition());
+				for (int j = 0; j < 50; j++) {
+					System.out.println();
+				}
+				maze.printMaze();
+				Thread.sleep(500);
+			}
+			
+		}
+		maze.setExitFree(true);
+	}
+	
 
 	public boolean validRangePos(int i, int j) {
 		return (i >= 0 && i < maze.getMaze().length && j >= 0 && j < maze.getMaze()[0].length);

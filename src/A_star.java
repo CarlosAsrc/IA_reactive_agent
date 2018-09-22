@@ -64,11 +64,11 @@ public class A_star {
 
 			// checa se posicao atual e a posicao do objetivo(bau ou saida)
 			if ((current[0] == this.objetivo[0]) && (current[1] == this.objetivo[1])) {
-				System.out.println("Achou final: " + this.objetivo[0] + "," + this.objetivo[1]);
+//				System.out.println("Achou final: " + this.objetivo[0] + "," + this.objetivo[1]);
 //				open_list.forEach(s-> {System.out.print(" "+s.getPosition()[0]+s.getPosition()[1]);});
 //				System.out.println();
-				closed_list.forEach(s-> {System.out.print(" "+s.getPosition()[0]+","+s.getPosition()[1]);});
-				System.out.println();
+//				closed_list.forEach(s-> {System.out.print(" "+s.getPosition()[0]+","+s.getPosition()[1]);});
+//				System.out.println();
 //				path.forEach(s-> {System.out.print(" "+s.getPosition()[0]+s.getPosition()[1]);});
 //				System.out.println();
 				finalPath = reconstructPath(closed_list);
@@ -135,10 +135,10 @@ public class A_star {
 			count++;
 		}
 		 
-		for (State s :finalPath) {
-	  	//	System.out.println("Posi��o pai" + s.getPos_pai()[0] + "," + s.getPos_pai()[1]);
-			System.out.println("PATH: " + s.getPosition()[0] + "," + s.getPosition()[1] + " custo: " + s.getCost_final());
-		}
+//		for (State s :finalPath) {
+//	  	//	System.out.println("Posi��o pai" + s.getPos_pai()[0] + "," + s.getPos_pai()[1]);
+//			System.out.println("PATH: " + s.getPosition()[0] + "," + s.getPosition()[1] + " custo: " + s.getCost_final());
+//		}
 		return finalPath;
 	}
 

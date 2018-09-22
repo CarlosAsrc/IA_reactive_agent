@@ -11,14 +11,15 @@ public class Main {
 		System.out.println("\n");
 		maze.printMaze();
 		agent.explore();
-
-		Genetic alg_gen = new Genetic(agent);
-		alg_gen.run();
-		System.out.println("Posicao do agente: " + maze.getAgentPosition()[0] + "," + maze.getAgentPosition()[1]);
-		System.out.println("Posicao do saida: " + maze.getSaidaPosition()[0] + "," + maze.getSaidaPosition()[1]);
-		A_star a = new A_star(agent,maze.getAgentPosition(), maze.getSaidaPosition(), maze);
-		a.run();
-
+		//agent.distributeCoins();
+//		Genetic alg_gen = new Genetic(agent);
+//		alg_gen.run();
+//		System.out.println("Posicao do agente: " + maze.getAgentPosition()[0] + "," + maze.getAgentPosition()[1]);
+//		System.out.println("Posicao do saida: " + maze.getSaidaPosition()[0] + "," + maze.getSaidaPosition()[1]);
+//		A_star a = new A_star(agent,maze.getAgentPosition(), maze.getSaidaPosition(), maze);
+//		a.run();
+		
+		
 		
 		
 		

@@ -9,7 +9,16 @@ public class Maze {
 	private int [] holesPositions= new int[10];
 	private int [] chestsPositions = new int[8];
 	int cont;
+	boolean exitFree = false;
 	
+	public void setExitFree(boolean exitFree) {
+		this.exitFree = exitFree;
+	}
+
+	public boolean isExitFree() {
+		return exitFree;
+	}
+
 	public int[] getCoinsPositions() {
 		return coinsPositions;
 	}
