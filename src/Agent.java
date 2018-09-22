@@ -15,6 +15,10 @@ public class Agent {
 	private Random random = new Random();
 	private int points = 0;
 
+	public ArrayList getCoin() {
+		return coin;
+	}
+
 	public Agent(Maze maze) {
 		this.maze = maze;
 		sortDirection();
@@ -55,6 +59,7 @@ public class Agent {
 			int c = Integer.parseInt(currentPositionContent.replaceAll(" ", ""));
 			coin.add(c);
 			points = points + (c*10);
+			System.out.println("Moedas coletadas! + "+points+" pontos");
 			currentPositionContent = "  -  ";
 		}
 	}
@@ -102,6 +107,7 @@ public class Agent {
 				position[0] = x - 1;
 				currentPositionContent = maze.getMaze()[position[0]][position[1]];
 				points = points+30;
+				System.out.println("Pulou buraco! +30 pontos");
 				break;
 
 			} else {
@@ -123,6 +129,7 @@ public class Agent {
 				position[0] = x + 1;
 				currentPositionContent = maze.getMaze()[position[0]][position[1]];
 				points = points+30;
+				System.out.println("Pulou buraco! +30 pontos");
 				break;
 
 			} else {
@@ -143,6 +150,7 @@ public class Agent {
 				position[1] = y - 1;
 				currentPositionContent = maze.getMaze()[position[0]][position[1]];
 				points = points+30;
+				System.out.println("Pulou buraco! +30 pontos");
 				break;
 
 			} else {
@@ -163,6 +171,7 @@ public class Agent {
 				position[1] = y + 1;
 				currentPositionContent = maze.getMaze()[position[0]][position[1]];
 				points = points+30;
+				System.out.println("Pulou buraco! +30 pontos");
 				break;
 
 			} else {
