@@ -51,7 +51,7 @@ public class A_star {
 		int count = 0;
 
 		open_list.add(inicial);
-		// adiciona posiçao inicial do agente como primeiro elemento do path final - testar
+		// adiciona posicao inicial do agente como primeiro elemento do path final - testar
 		path.add(inicial);
 
 		State menor_vizinho = null;
@@ -67,7 +67,7 @@ public class A_star {
 				System.out.println("Achou final: " + this.objetivo[0] + "," + this.objetivo[1]);
 //				open_list.forEach(s-> {System.out.print(" "+s.getPosition()[0]+s.getPosition()[1]);});
 //				System.out.println();
-				closed_list.forEach(s-> {System.out.print(" "+s.getPosition()[0]+s.getPosition()[1]);});
+				closed_list.forEach(s-> {System.out.print(" "+s.getPosition()[0]+","+s.getPosition()[1]);});
 				System.out.println();
 //				path.forEach(s-> {System.out.print(" "+s.getPosition()[0]+s.getPosition()[1]);});
 //				System.out.println();
@@ -250,7 +250,7 @@ public class A_star {
 	}
 
 	/*
-	 * Gera a fun��o heuristica do estado corrente
+	 * Gera a funcao heuristica do estado corrente
 	 *
 	 */
 //	public double calcHeuristic(int[] current, int[] goal) {
