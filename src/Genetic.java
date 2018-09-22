@@ -15,7 +15,7 @@ public class Genetic {
 	// quando execu�oes param de dar solu�oes novas, ent�o convergiu = fim da
 	// execucao do AG
 	
-	static int[] carga = { 10, 90, 3, 96, 92, 2, 90, 50, 50, 33, 20, 51, 84, 96, 96, 11 };
+	static int[] carga = {  10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10};
 	
 	public Genetic() {
 	}
@@ -28,7 +28,7 @@ public class Genetic {
 		popular(populacao);
 		printPopulacao(populacao, 17);
 
-		for (int i=0;i<10;i++) {
+		for (int i=0;i<100;i++) {
 			System.out.println("\nGeracao " + i);
 			aptidar(populacao);
 			printPopulacao(populacao,17);
@@ -79,17 +79,33 @@ public class Genetic {
 			int pai = torner(populacao);
 			int mae = torner(populacao);
 			linha++;
-			for (int j=0; j<5; j++) {
+			for (int j=0; j<4; j++) {
 				intermediaria[linha][j] = populacao[pai][j];
 				intermediaria[linha+1][j] = populacao[mae][j];
 			}
-			for (int j=5; j<16; j++) {
+			for (int j=4; j<8; j++) {
+				intermediaria[linha][j] = populacao[mae][j];
+				intermediaria[linha+1][j] = populacao[pai][j];
+			}
+			for (int j=8; j<12; j++) {
+				intermediaria[linha][j] = populacao[mae][j];
+				intermediaria[linha+1][j] = populacao[pai][j];
+			}
+			for (int j=12; j<16; j++) {
 				intermediaria[linha][j] = populacao[mae][j];
 				intermediaria[linha+1][j] = populacao[pai][j];
 			}
 			linha++;
+			for(int k=0; k<5; k++) {mutate(populacao, linha);}
 		}
 		clonar(populacao,intermediaria);
+	}
+	
+	static void mutate(int [][]populacao, int i) {
+		Random r = new Random();
+		int bau = r.nextInt(4);
+		int posicao = r.nextInt(16);
+		populacao[i][posicao] = bau;
 	}
 	
 	static int torner(int [][]populacao) {
