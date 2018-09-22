@@ -178,7 +178,27 @@ public class Maze {
 	}
 
 	public boolean validateHolePosition(String holeArea, int line, int column) {
-
+		
+		switch(wallSide) {
+			case "ACIMA":
+				if(saida[0]+1==line && saida[1]==column) {
+					return false;
+				}
+			case "ESQUERDA":
+				if(saida[0]==line && saida[1]+1==column) {
+					return false;
+				}
+			case "DIREITA":
+				if(saida[0]==line && saida[1]-1==column) {
+					return false;
+				}
+			case "ABAIXO":
+				if(saida[0]-1==line && saida[1]==column) {
+					return false;
+				}
+		}
+			
+		
 		if (line == 0 && column == 0) {
 			if (!maze[line][column].equals("  -  ") || maze[line + 1][column].equals("  O  ")
 					|| maze[line][column + 1].equals("  O  ")) {
