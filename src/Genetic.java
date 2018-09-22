@@ -128,10 +128,10 @@ public class Genetic {
 						b=b+carga[j];
 						break;
 					case 2:
-						b=b+carga[j];
+						c=c+carga[j];
 						break;
 					case 3:
-						b=b+carga[j];
+						d=d+carga[j];
 					
 				}
 			}

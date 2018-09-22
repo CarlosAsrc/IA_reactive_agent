@@ -228,21 +228,21 @@ public class A_star {
 
 		 ArrayList<State> finalPath = new ArrayList<State>();
 		 finalPath.add(current);
-		 int i=0;
-		 while(i<calcHeuristic(this.inicio, this.objetivo)){
-			 	for (State s : path) {
-					if(s.getPosition()[0] == current.getPos_pai()[0] && s.getPosition()[1] == current.getPos_pai()[1]){
-						// current vai pro state anterior o atual, p/ o nodo came_from
-						 current = s;
-						 finalPath.add(current);
-						 i++;
-						 //System.out.print(" - "+current.getPosition()[0]+current.getPosition()[1]);
-						 break;
-					}
-
+		 int i=0, attempts=0;
+		 while(i<calcHeuristic(this.inicio, this.objetivo) && attempts<50){
+			 for (State s : path) {
+				if(s.getPosition()[0] == current.getPos_pai()[0] && s.getPosition()[1] == current.getPos_pai()[1]){
+					// current vai pro state anterior o atual, p/ o nodo came_from
+					 current = s;
+					 finalPath.add(current);
+					 i++;
+					 //System.out.print(" - "+current.getPosition()[0]+current.getPosition()[1]);
+					 break;
 				}
 
-				path.remove(current);
+			 }
+			 attempts++;	
+			 path.remove(current);
 		 }
 		 Collections.reverse(finalPath);
 		 return finalPath;
