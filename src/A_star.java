@@ -150,9 +150,17 @@ public class A_star {
 			position[0] = current[0] + 1;
 			position[1] = current[1];
 			if (ag.validRangePos(position[0], position[1])) {
-				if (this.maze[position[0]][position[1]] != null && (!this.maze[position[0]][position[1]].contains("P"))
-						&& (!this.maze[position[0]][position[1]].contains("O"))) {
-					vizinhos.add(position);
+				if(this.maze[position[0]][position[1]] != null) {
+					if(this.maze[position[0]][position[1]].contains("O") ) {
+						if(ag.validPos(position[0]+1, position[1])) {
+							position[0] = position[0]+1;
+							vizinhos.add(position);
+						}
+					} else {
+						if (!this.maze[position[0]][position[1]].contains("P")) {
+							vizinhos.add(position);
+						}
+					}
 				}
 			}
 
@@ -160,11 +168,16 @@ public class A_star {
 			position[0] = current[0] - 1;
 			position[1] = current[1];
 			if (ag.validRangePos(position[0], position[1])) {
-				if (position[0] >= 0) {
-					if (this.maze[position[0]][position[1]] != null
-							&& (!this.maze[position[0]][position[1]].contains("P"))
-							&& (!this.maze[position[0]][position[1]].contains("O"))) {
-						vizinhos.add(position);
+				if(this.maze[position[0]][position[1]] != null) {
+					if(this.maze[position[0]][position[1]].contains("O") ) {
+						if(ag.validPos(position[0]-1, position[1])) {
+							position[0] = position[0]-1;
+							vizinhos.add(position);
+						}
+					} else {
+						if (!this.maze[position[0]][position[1]].contains("P")) {
+							vizinhos.add(position);
+						}
 					}
 				}
 			}
@@ -172,20 +185,33 @@ public class A_star {
 			position[0] = current[0];
 			position[1] = current[1] + 1;
 			if (ag.validRangePos(position[0], position[1])) {
-				if (this.maze[position[0]][position[1]] != null && (!this.maze[position[0]][position[1]].contains("P"))
-						&& (!this.maze[position[0]][position[1]].contains("O"))) {
-					vizinhos.add(position);
+				if(this.maze[position[0]][position[1]] != null) {
+					if(this.maze[position[0]][position[1]].contains("O") ) {
+						if(ag.validPos(position[0], position[1]+1)) {
+							position[1] = position[1]+1;
+							vizinhos.add(position);
+						}
+					} else {
+						if (!this.maze[position[0]][position[1]].contains("P")) {
+							vizinhos.add(position);
+						}
+					}
 				}
 			}
 			position = new int[2];
 			position[0] = current[0];
 			position[1] = current[1] - 1;
 			if (ag.validRangePos(position[0], position[1])) {
-				if (position[1] >= 0) {
-					if (this.maze[position[0]][position[1]] != null
-							&& (!this.maze[position[0]][position[1]].contains("P"))
-							&& (!this.maze[position[0]][position[1]].contains("O"))) {
-						vizinhos.add(position);
+				if(this.maze[position[0]][position[1]] != null) {
+					if(this.maze[position[0]][position[1]].contains("O") ) {
+						if(ag.validPos(position[0], position[1]-1)) {
+							position[1] = position[1]-1;
+							vizinhos.add(position);
+						}
+					} else {
+						if (!this.maze[position[0]][position[1]].contains("P")) {
+							vizinhos.add(position);
+						}
 					}
 				}
 			}
