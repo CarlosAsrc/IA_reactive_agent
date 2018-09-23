@@ -14,6 +14,8 @@ public class Agent {
 	private String currentDirection;
 	private Random random = new Random();
 	private int points = 0;
+	private int moviements=0;
+	private String log="";
 
 	public ArrayList getCoin() {
 		return coin;
@@ -30,7 +32,7 @@ public class Agent {
 			for (int j = 0; j < 50; j++) {
 				System.out.println();
 			}
-			if(coin.size() != maze.getCoins().length) {
+			if(coin.size() != maze.getCoins().length || chestsPositionsCont!=8) {
 				scan();
 				move();
 				explorePos();
@@ -38,7 +40,12 @@ public class Agent {
 				distributeCoins();
 			}
 			
-
+			if(moviements>=100) {
+				gameOver("O agente não econtrou todas as moedas na sua área possivel de exploracao.");
+				return;
+			}
+			
+			System.out.println(log+"      <------- log"+"\n_________________________________________________________");
 			System.out.print("Posicao dos baus: ");
 			for (int j = 0; j < 7; j = j + 2) {
 				System.out.print(" " + chestsPositions[j] + chestsPositions[j + 1]);
@@ -59,12 +66,20 @@ public class Agent {
 		}
 	}
 
+	public void gameOver(String reason) {
+		for (int j = 0; j < 50; j++) {System.out.println();}
+		System.out.println("------GAME OVER------");
+		System.out.println(reason);
+		System.out.println("Pontuacao: "+points);
+	}
+	
 	public void explorePos() {
 		if (currentPositionContent.replaceAll(" ", "").matches("^[0-9]{2}|^[0-9]")) {
 			int c = Integer.parseInt(currentPositionContent.replaceAll(" ", ""));
 			coin.add(c);
 			points = points + (c*10);
-			System.out.println("Moedas coletadas! + "+points+" pontos");
+			moviements = 0;
+			log = log+"\nMoedas coletadas! + "+points+" pontos";
 			currentPositionContent = "  -  ";
 		}
 	}
@@ -112,12 +127,14 @@ public class Agent {
 				position[0] = x - 1;
 				currentPositionContent = maze.getMaze()[position[0]][position[1]];
 				points = points+30;
-				System.out.println("Pulou buraco! +30 pontos");
+				moviements++;
+				log = log+"\nPulou buraco! +30 pontos";
 				break;
 
 			} else {
 				if (validPos(x, y)) {
 					position[0] = x;
+					moviements++;
 					currentPositionContent = maze.getMaze()[position[0]][position[1]];
 				} else {
 					sortDirection();
@@ -134,12 +151,14 @@ public class Agent {
 				position[0] = x + 1;
 				currentPositionContent = maze.getMaze()[position[0]][position[1]];
 				points = points+30;
-				System.out.println("Pulou buraco! +30 pontos");
+				moviements++;
+				log = log+"\nPulou buraco! +30 pontos";
 				break;
 
 			} else {
 				if (validPos(x, y)) {
 					position[0] = x;
+					moviements++;
 					currentPositionContent = maze.getMaze()[position[0]][position[1]];
 				} else {
 					sortDirection();
@@ -155,12 +174,14 @@ public class Agent {
 				position[1] = y - 1;
 				currentPositionContent = maze.getMaze()[position[0]][position[1]];
 				points = points+30;
-				System.out.println("Pulou buraco! +30 pontos");
+				moviements++;
+				log = log+"\nPulou buraco! +30 pontos";
 				break;
 
 			} else {
 				if (validPos(x, y)) {
 					position[1] = y;
+					moviements++;
 					currentPositionContent = maze.getMaze()[position[0]][position[1]];
 				} else {
 					sortDirection();
@@ -176,12 +197,14 @@ public class Agent {
 				position[1] = y + 1;
 				currentPositionContent = maze.getMaze()[position[0]][position[1]];
 				points = points+30;
-				System.out.println("Pulou buraco! +30 pontos");
+				moviements++;
+				log = log+"\nPulou buraco! +30 pontos";
 				break;
 
 			} else {
 				if (validPos(x, y)) {
 					position[1] = y;
+					moviements++;
 					currentPositionContent = maze.getMaze()[position[0]][position[1]];
 				} else {
 					sortDirection();
@@ -302,5 +325,6 @@ public class Agent {
 			chestsPositions[chestsPositionsCont] = y;
 			chestsPositionsCont++;
 		}
+		moviements = 0;
 	}
 }

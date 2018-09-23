@@ -357,7 +357,7 @@ public class Maze {
 			for (int j = 0; j < maze[0].length; j++) {
 				System.out.print(maze[i][j]);
 			}
-			System.out.println("\n");
+			System.out.println();
 		}
 	}
 
