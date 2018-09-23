@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -16,6 +17,11 @@ public class Agent {
 	private int points = 0;
 	private int moviements=0;
 	private String log="";
+	private int [] coinDistribution= new int[17];
+	private ArrayList chestA = new ArrayList<>();
+	private ArrayList chestB = new ArrayList<>();
+	private ArrayList chestC = new ArrayList<>();
+	private ArrayList chestD = new ArrayList<>();
 
 	public ArrayList getCoin() {
 		return coin;
@@ -36,32 +42,19 @@ public class Agent {
 				scan();
 				move();
 				explorePos();
+				printData();
 			} else {
+				geneticAlg();
 				distributeCoins();
 			}
 			
-			if(moviements>=100) {
+			if(moviements>=50) {
 				gameOver("O agente não econtrou todas as moedas na sua área possivel de exploracao.");
 				return;
 			}
 			
-			System.out.println(log+"      <------- log"+"\n_________________________________________________________");
-			System.out.print("Posicao dos baus: ");
-			for (int j = 0; j < 7; j = j + 2) {
-				System.out.print(" " + chestsPositions[j] + chestsPositions[j + 1]);
-			}
-			System.out.println("\nPosicao da saída: " + exitPosition[0] + exitPosition[1]);
-			System.out.print("Moedas coletadas: ");
-			coin.stream().forEach(c -> {
-				System.out.print("  " + c);
-			});
-			System.out.print("\nPosicao atual   X: " + maze.getAgentPosition()[0]);
-			System.out.println("  Y: " + maze.getAgentPosition()[1]);
-			System.out.println("Direcao atual: " + currentDirection);
-			System.out.println("Pontuacao: "+points);
-
-			maze.printMaze();
-			Thread.sleep(100);
+			
+			Thread.sleep(1);
 
 		}
 	}
@@ -300,7 +293,17 @@ public class Agent {
 				for (int j = 0; j < 50; j++) {
 					System.out.println();
 				}
-				maze.printMaze();
+				printData();
+				System.out.print("\nDistribuicao: ");
+				System.out.print("  Baú A: ");
+				chestA.forEach(n->{System.out.print(n+" ");});
+				System.out.print("  Baú B: ");
+				chestB.forEach(n->{System.out.print(n+" ");});
+				System.out.print("  Baú C: ");
+				chestC.forEach(n->{System.out.print(n+" ");});
+				System.out.print("  Baú D: ");
+				chestD.forEach(n->{System.out.print(n+" ");});
+				System.out.print("\nDiferenca total entre baús: "+coinDistribution[coinDistribution.length-1]);
 				Thread.sleep(500);
 			}
 			
@@ -308,7 +311,62 @@ public class Agent {
 		maze.setExitFree(true);
 	}
 	
+	public void geneticAlg () {
+		int [] coinArray = toArray(this.coin);
+		Genetic g = new Genetic(coinArray);
+//		while(true) {p(coinArray);}
+		coinDistribution = g.run();
+		for(int k=0; k<coinDistribution.length-2; k++) {
+			switch (coinDistribution[k]) {
+			case 0:
+				chestA.add(coinArray[k]);
+				break;
+			case 1:
+				chestB.add(coinArray[k]);
+				break;
+			case 2:
+				chestC.add(coinArray[k]);
+				break;
+			case 3:
+				chestD.add(coinArray[k]);
+			}
+		}
+		
+	}
+	
+	public int [] toArray(ArrayList a) {
+		int [] result = new int[a.size()+1];
+		for(int i=0; i<result.length-1; i++) {
+			result[i] = Integer.parseInt(a.get(i).toString());
+		}
+		return result;
+	}
+	
+	public void p(int [] v) {
+		for(int i=0; i<v.length; i++) {
+			System.out.print(v[i]+" ");
+		}
+	}
+	
+	public void printData() {
+		System.out.println(log+"      <------- log"+"\n_________________________________________________________");
+		System.out.print("Posicao dos baus: ");
+		for (int j = 0; j < 7; j = j + 2) {
+			System.out.print(" " + chestsPositions[j] + chestsPositions[j + 1]);
+		}
+		System.out.println("\nPosicao da saída: " + exitPosition[0] + exitPosition[1]);
+		System.out.print("Moedas coletadas: ");
+		coin.stream().forEach(c -> {
+			System.out.print("  " + c);
+		});
+		System.out.print("\nPosicao atual   X: " + maze.getAgentPosition()[0]);
+		System.out.println("  Y: " + maze.getAgentPosition()[1]);
+		System.out.println("Direcao atual: " + currentDirection);
+		System.out.println("Pontuacao: "+points);
 
+		maze.printMaze();
+	}
+	
 	public boolean validRangePos(int i, int j) {
 		return (i >= 0 && i < maze.getMaze().length && j >= 0 && j < maze.getMaze()[0].length);
 	}

@@ -24,15 +24,11 @@ public class Genetic {
 	static int[] carga = new int[16];
 	Agent agente = null;
 
-	public Genetic(Agent a) {
-		agente = a;
+	public Genetic(int [] carga) {
+		this.carga = carga;
 	}
 
-	public void run() {
-		// preenche vetor com moedas coletadas no labirinto
-		for (int i = 0; i < agente.getCoin().size(); i++) {
-			carga[i] = Integer.parseInt(agente.getCoin().get(i).toString());
-		}
+	public int [] run() {
 
 		int[][] populacao = new int[5][17];
 		int[][] intermediaria = new int[5][17];
@@ -51,7 +47,8 @@ public class Genetic {
 			gerar(populacao, intermediaria);
 			// printPopulacao(populacao,17);
 		}
-
+		return populacao[0];
+		
 	}
 
 	static void popular(int[][] populacao) {
