@@ -47,14 +47,16 @@ public class Agent {
 				geneticAlg();
 				distributeCoins();
 			}
-			
+			if(moviements%20==0 && moviements!=0) {
+				sortDirection();
+			}
 			if(moviements>=50) {
 				gameOver("O agente não econtrou todas as moedas na sua área possivel de exploracao.");
 				return;
 			}
 			
 			
-			Thread.sleep(1);
+			Thread.sleep(300);
 
 		}
 	}
