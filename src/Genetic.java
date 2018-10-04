@@ -37,11 +37,17 @@ public class Genetic {
 		popular(populacao);
 		printPopulacao(populacao, 17);
 
-		for (int i=0;i<100;i++) {
-			System.out.println("\nGeracao " + i);
+		for (int i=0;i<2000;i++) {
+//			System.out.println("\nGeracao " + i);
 			aptidar(populacao);
-			printPopulacao(populacao, 17);
-
+			//printPopulacao(populacao, 17);
+			
+			for(int j=0; j<populacao.length; j++) {
+				if(populacao[j][16]==0) {
+					return populacao[j];
+				}
+			}
+			
 			elitizar(populacao, intermediaria);
 			// printPopulacao(populacao,17);
 			gerar(populacao, intermediaria);
@@ -98,8 +104,8 @@ public class Genetic {
 				intermediaria[linha+1][j] = populacao[pai][j];
 			}
 			for (int j=8; j<12; j++) {
-				intermediaria[linha][j] = populacao[mae][j];
-				intermediaria[linha+1][j] = populacao[pai][j];
+				intermediaria[linha][j] = populacao[pai][j];
+				intermediaria[linha+1][j] = populacao[mae][j];
 			}
 			for (int j=12; j<16; j++) {
 				intermediaria[linha][j] = populacao[mae][j];

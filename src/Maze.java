@@ -5,6 +5,7 @@ public class Maze {
 
 	private String[][] maze = new String[10][10];
 	private int[] coins = { 10, 90, 3, 96, 92, 2, 90, 50, 50, 33, 20, 51, 84, 96, 96, 11 };
+//	private int[] coins = { 10, 10, 10, 10, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5 };
 	private int [] coinsPositions = new int[32];
 	private int [] holesPositions= new int[10];
 	private int [] chestsPositions = new int[8];

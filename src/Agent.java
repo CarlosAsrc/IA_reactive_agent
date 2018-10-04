@@ -18,10 +18,10 @@ public class Agent {
 	private int moviements=0;
 	private String log="";
 	private int [] coinDistribution= new int[17];
-	private ArrayList chestA = new ArrayList<>();
-	private ArrayList chestB = new ArrayList<>();
-	private ArrayList chestC = new ArrayList<>();
-	private ArrayList chestD = new ArrayList<>();
+	private ArrayList<Integer> chestA = new ArrayList<Integer>();
+	private ArrayList<Integer> chestB = new ArrayList<Integer>();
+	private ArrayList<Integer> chestC = new ArrayList<Integer>();
+	private ArrayList<Integer> chestD = new ArrayList<Integer>();
 
 	public ArrayList getCoin() {
 		return coin;
@@ -34,7 +34,6 @@ public class Agent {
 
 	public void explore() throws InterruptedException, IOException {
 		while ( ! maze.isExitFree()) {
-		//for (int i=0; i<50; i++) {
 			for (int j = 0; j < 50; j++) {
 				System.out.println();
 			}
@@ -49,23 +48,16 @@ public class Agent {
 			}
 			if(moviements%20==0 && moviements!=0) {
 				sortDirection();
+				move();
+				explorePos();
+				printData();
 			}
-			if(moviements>=50) {
-				gameOver("O agente não econtrou todas as moedas na sua área possivel de exploracao.");
+			if(moviements>=100) {
+				gameOver("O agente não econtrou moedas na sua área possivel de exploracao após 100 movimentos de busca.");
 				return;
-			}
-			
-			
-			Thread.sleep(300);
-
+			}			
+			Thread.sleep(500);
 		}
-	}
-
-	public void gameOver(String reason) {
-		for (int j = 0; j < 50; j++) {System.out.println();}
-		System.out.println("------GAME OVER------");
-		System.out.println(reason);
-		System.out.println("Pontuacao: "+points);
 	}
 	
 	public void explorePos() {
@@ -274,7 +266,7 @@ public class Agent {
 	public String scanPos(int x, int y) {
 		if (!validRangePos(x, y))
 			return "invalid position";
-		if (maze.getMaze()[x][y].contains("B")) {
+		if (maze.getMaze()[x][y].contains("B")) {	
 			saveChest(x, y);
 		}
 		if (maze.getMaze()[x][y].contains("S")) {
@@ -296,16 +288,35 @@ public class Agent {
 					System.out.println();
 				}
 				printData();
-				System.out.print("\nDistribuicao: ");
-				System.out.print("  Baú A: ");
+				System.out.print("\nDistribuicao moedas: ");
+				
+				System.out.print(" Baú A: ");
 				chestA.forEach(n->{System.out.print(n+" ");});
+				int A=0;
+				for(Integer n: chestA) {A=A+n;}
+				System.out.print(" (total:" +A+" ) |");
+				
 				System.out.print("  Baú B: ");
 				chestB.forEach(n->{System.out.print(n+" ");});
+				int B=0;
+				for(Integer n: chestB) {B=B+n;}
+				System.out.print(" (total:" +B+" ) |");
+				
+				
 				System.out.print("  Baú C: ");
 				chestC.forEach(n->{System.out.print(n+" ");});
+				int C=0;
+				for(Integer n: chestC) {C=C+n;}
+				System.out.print(" (total:" +C+" ) |");
+				
+				
 				System.out.print("  Baú D: ");
 				chestD.forEach(n->{System.out.print(n+" ");});
-				System.out.print("\nDiferenca total entre baús: "+coinDistribution[coinDistribution.length-1]);
+				int D=0;
+				for(Integer n: chestD) {D=D+n;}
+				System.out.print(" (total:" +D+" ) |");
+				
+				System.out.print("\nDiferenca média total entre baús: "+(coinDistribution[coinDistribution.length-1]*1.0)/4);
 				Thread.sleep(500);
 			}
 			
@@ -313,12 +324,20 @@ public class Agent {
 		maze.setExitFree(true);
 	}
 	
+	public void gameOver(String reason) {
+		for (int j = 0; j < 50; j++) {System.out.println();}
+		System.out.println(log+"      <------- log"+"\n_________________________________________________________");
+		System.out.println("------GAME OVER------");
+		System.out.println(reason);
+		System.out.println("Pontuacao: "+points);
+	}
+	
 	public void geneticAlg () {
 		int [] coinArray = toArray(this.coin);
 		Genetic g = new Genetic(coinArray);
 //		while(true) {p(coinArray);}
 		coinDistribution = g.run();
-		for(int k=0; k<coinDistribution.length-2; k++) {
+		for(int k=0; k<coinDistribution.length-1; k++) {
 			switch (coinDistribution[k]) {
 			case 0:
 				chestA.add(coinArray[k]);
